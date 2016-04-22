@@ -56,7 +56,6 @@ public class PlayState extends State implements GestureDetector.GestureListener 
     public PlayState(GameStateManager gsm) {
         super(gsm);
         sonic = new Sonic(100, 120);
-        //ringsCount = 0;
         sonicDie = false;
         font = new BitmapFont();
 
