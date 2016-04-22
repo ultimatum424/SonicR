@@ -1,0 +1,19 @@
+StartBt.png
+size: 576, 106
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+start
+  rotate: false
+  xy: 1, 1
+  size: 286, 104
+  orig: 286, 104
+  offset: 0, 0
+  index: -1
+startPress
+  rotate: false
+  xy: 289, 1
+  size: 286, 104
+  orig: 286, 104
+  offset: 0, 0
+  index: -1

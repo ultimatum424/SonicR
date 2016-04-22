@@ -1,0 +1,33 @@
+SpinDash.png
+size: 276, 70
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1
+  rotate: false
+  xy: 1, 1
+  size: 68, 66
+  orig: 68, 66
+  offset: 0, 0
+  index: -1
+2
+  rotate: false
+  xy: 71, 1
+  size: 66, 68
+  orig: 66, 68
+  offset: 0, 0
+  index: -1
+3
+  rotate: false
+  xy: 139, 1
+  size: 68, 66
+  orig: 68, 66
+  offset: 0, 0
+  index: -1
+4
+  rotate: false
+  xy: 209, 1
+  size: 66, 68
+  orig: 66, 68
+  offset: 0, 0
+  index: -1

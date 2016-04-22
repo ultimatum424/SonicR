@@ -1,0 +1,26 @@
+statusBarSpinDash.png
+size: 255, 45
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+BkStatusBar
+  rotate: false
+  xy: 0, 0
+  size: 223, 10
+  orig: 223, 10
+  offset: 0, 0
+  index: -1
+iconStatusBar
+  rotate: false
+  xy: 0, 10
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+statusBar
+  rotate: false
+  xy: 35, 10
+  size: 220, 7
+  orig: 220, 7
+  offset: 0, 0
+  index: -1
