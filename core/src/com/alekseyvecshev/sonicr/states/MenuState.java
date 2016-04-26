@@ -42,7 +42,7 @@ public class MenuState extends State {
         if (Gdx.input.justTouched()){
             if ((490 < Gdx.input.getX() && (Gdx.input.getX() < (490 + startIn.getTexture().getWidth()))))
                 if ((445 < Gdx.input.getY() && (Gdx.input.getY() < (445 + startIn.getTexture().getHeight()))))
-                    gsm.set(new PlayState(gsm));
+                    gsm.set(new BossRobotState(gsm));
         }
     }
 

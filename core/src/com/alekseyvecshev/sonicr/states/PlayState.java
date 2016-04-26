@@ -80,7 +80,6 @@ public class PlayState extends State implements GestureDetector.GestureListener 
             obstacles.addLast(new Obstacle((int) (i * 500)));
         }
 
-
         gestureDetector = new GestureDetector(this);
         Gdx.input.setInputProcessor(gestureDetector);
     }
@@ -152,7 +151,7 @@ public class PlayState extends State implements GestureDetector.GestureListener 
         } else {
             timeGameOver -= dt;
             if (timeGameOver < 0) {
-                gsm.set(new MenuState(gsm));
+                gsm.set(new BossRobotState(gsm));
             }
         }
         camera.update();
@@ -221,7 +220,7 @@ public class PlayState extends State implements GestureDetector.GestureListener 
     public boolean tap(float x, float y, int count, int button) {
         if (sonic.levelSpinDash >= Sonic.MAX_LEVEL_SPINDASH) {
             sonic.timeSpinDash = 0.75;
-        }
+         }
         return true;
     }
 

@@ -66,4 +66,7 @@ public class Platform {
         posBottomPlatform.set(x, posPlatformY.x);
     }
 
+
+
+
 }
