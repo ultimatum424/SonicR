@@ -47,8 +47,6 @@ public class Sonic {
         collision = new Rectangle();
 
         textureAtlas = new TextureAtlas(Gdx.files.internal("gameScr\\Sonic\\runSonic.txt" ));
-        //
-        //
         animation = new Animation(1/15f, textureAtlas.getRegions());
 
         textureAtlasSpinDash = new TextureAtlas(Gdx.files.internal("gameScr\\Sonic\\SpinDash.txt"));

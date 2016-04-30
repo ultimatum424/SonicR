@@ -151,7 +151,7 @@ public class PlayState extends State implements GestureDetector.GestureListener 
         } else {
             timeGameOver -= dt;
             if (timeGameOver < 0) {
-                gsm.set(new BossRobotState(gsm));
+                gsm.set(new PlayState(gsm));
             }
         }
         camera.update();

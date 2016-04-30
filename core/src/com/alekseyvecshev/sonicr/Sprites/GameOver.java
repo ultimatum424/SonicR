@@ -18,6 +18,7 @@ public class GameOver {
     private Sprite progressBar;
     private Sprite progressBarMask;
     private Texture bg;
+    float timerGameOver = 0;
 
 
     public GameOver(){
@@ -33,5 +34,13 @@ public class GameOver {
         sb.draw(gameOver, centre.x - 360, centre.y - 35, gameOver.getWidth(), gameOver.getHeight());
         sb.draw(progressBarMask, centre.x - 280, centre.y -  215, progressBarMask.getWidth(), progressBarMask.getHeight());
         sb.draw(progressBar,  centre.x - 280 + 3, centre.y -  215 + 5, (progressBar.getTexture().getWidth() * procentBar), progressBar.getHeight());
+    }
+
+    public float getTimerGameOver() {
+        return timerGameOver;
+    }
+
+    public void setTimerGameOver(float timerGameOver) {
+        this.timerGameOver = timerGameOver;
     }
 }

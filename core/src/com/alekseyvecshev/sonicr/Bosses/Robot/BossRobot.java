@@ -1,6 +1,7 @@
 package com.alekseyvecshev.sonicr.Bosses.Robot;
 
 import com.alekseyvecshev.sonicr.SonicRGame;
+import com.alekseyvecshev.sonicr.Tool.HelpersTool;
 import com.alekseyvecshev.sonicr.states.BossRobotState;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -19,8 +20,9 @@ import java.util.Random;
  */
 public class BossRobot {
     private static final int SPEED = 4;
-    private static final int SPEED_BOOST = 8;
+    private static final int SPEED_BOOST = 6;
     private static final int CHANGE_DT = 100;
+    private static final int MAX_HP = 50;
     private float elapsedTime = 0;
     private Random rand;
     private EnumState state;
@@ -31,6 +33,8 @@ public class BossRobot {
     Vector2 position;
     Vector3 posPlatform;
     Rectangle collision;
+    private int hp = MAX_HP;
+    HelpersTool helpersTool;
 
     public BossRobot(){
         moveTexture = new TextureAtlas(Gdx.files.internal("BossStage//BossRobot//moveRobot.txt"));
@@ -39,7 +43,8 @@ public class BossRobot {
         collision = new Rectangle();
         timeState = 0;
         rand = new Random();
-        state = EnumState.Bullet;
+        state = EnumState.Fly;
+        helpersTool = new HelpersTool();
     }
 
     private void AttackMode(float dt){
@@ -65,8 +70,7 @@ public class BossRobot {
     public void update(float dt, Vector3 posCamera, int sizeBullet){
         elapsedTime += dt;
         timeState += dt;
-        collision.set(position.x, position.y, moveAnimation.getKeyFrame(dt).getTexture().getWidth(),
-                moveAnimation.getKeyFrame(dt).getTexture().getHeight());
+        collision.set(helpersTool.setCollision(moveAnimation, elapsedTime, position));
 
         changeState( posCamera, sizeBullet);
         if (state == EnumState.Attack){
@@ -75,12 +79,12 @@ public class BossRobot {
         if (state == EnumState.Fly){
             position.set(posCamera.x + 500, position.y);
         }
-       System.out.println(state);
     }
 
     public void render(SpriteBatch sb){
         sb.draw(moveAnimation.getKeyFrame(elapsedTime, true), position.x, position.y);
     }
+
 
     public boolean IsStateBullet(){
         if (state == EnumState.Bullet){
@@ -93,5 +97,21 @@ public class BossRobot {
 
     public float getElapsedTime() {
         return elapsedTime;
+    }
+
+    public Rectangle getCollision() {
+        return collision;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
+    public static int getMaxHp() {
+        return MAX_HP;
     }
 }
