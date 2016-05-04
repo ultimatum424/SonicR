@@ -16,10 +16,11 @@ import java.util.Random;
  * Created by Алексей on 24.04.2016.
  */
 public class Bullet {
-    private static final int BULLET_QUANTITY = 50;
+    private static final int BULLET_QUANTITY = 30;
     private static final int SPEED = 6;
     private static final int CHANGE_DT = 100;
     private float elapsedTime = 0;
+    private float elapsedTimeDie = 0;
     private TextureAtlas moveTexture;
     private TextureAtlas dieTexture;
     private Animation moveAnimation;
@@ -43,15 +44,16 @@ public class Bullet {
 
         position = new Vector2((i + 3000 + posSonic + moveTexture.getRegions().get(0).getRegionWidth()),
                 (130 + rand.nextInt(3) * 180));
-       // int sizeX = moveTexture.getRegions().get(1).getTexture().getWidth();
-       // int sizeY = moveTexture.getRegions().get(1).getTexture().getHeight();
-      //  collision = new Rectangle(position.x, position.y, sizeX - 10, sizeY - 10);
         collision = new Rectangle();
         isDie = false;
     }
 
+
     public void update(float dt){
         elapsedTime += dt;
+        if (isDie()){
+            elapsedTimeDie += dt;
+        }
         position.add(-dt * SPEED * CHANGE_DT, 0);
         if (isDie) {
             collision.set(0,0, 0, 0);
@@ -92,5 +94,9 @@ public class Bullet {
 
     public void setIsDie(boolean isDie) {
         this.isDie = isDie;
+    }
+
+    public float getElapsedTimeDie() {
+        return elapsedTimeDie;
     }
 }

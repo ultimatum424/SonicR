@@ -15,9 +15,9 @@ public class ElementInterface {
     Vector2 position;
     Vector2 realPos;
     Vector2 size;
-    int MAX_INFO;
+    float MAX_INFO;
 
-    public ElementInterface(Sprite sp, String _name, int x, int y, int info) {
+    public ElementInterface(Sprite sp, String _name, int x, int y, float info) {
         position = new Vector2(x, y);
         sprite = new Sprite(sp);
         realPos = new Vector2();

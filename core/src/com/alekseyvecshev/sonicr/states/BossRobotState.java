@@ -95,6 +95,7 @@ public class BossRobotState extends State implements GestureDetector.GestureList
             if (Intersector.intersectRectangles(sonic.getCollision(), bullet.getCollision(), resultCollision)) {
                 if (sonic.getTimeSpinDash() == 0){
                     sonic.setHp(sonic.getHp() - 1);
+                    bullet.setIsDie(true);
                 }
                 else {
                     bullet.setIsDie(true);
@@ -152,9 +153,9 @@ public class BossRobotState extends State implements GestureDetector.GestureList
         if (robot.IsStateBullet()) {
             for (Bullet bullet : bullets) {
                 if (bullet.isDie()) {
-                    sb.draw(bullet.getDieAnimation().getKeyFrame(robot.getElapsedTime(), true), bullet.getPosition().x, bullet.getPosition().y);
+                    sb.draw(bullet.getDieAnimation().getKeyFrame(bullet.getElapsedTimeDie(), false), bullet.getPosition().x, bullet.getPosition().y);
                 } else {
-                    sb.draw(bullet.getMoveAnimation().getKeyFrame(robot.getElapsedTime(), true), bullet.getPosition().x, bullet.getPosition().y);
+                    sb.draw(bullet.getMoveAnimation().getKeyFrame(bullet.getElapsedTime(), true), bullet.getPosition().x, bullet.getPosition().y);
                 }
             }
         }
