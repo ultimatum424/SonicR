@@ -1,6 +1,8 @@
 package com.alekseyvecshev.sonicr.states;
 
 import com.alekseyvecshev.sonicr.SonicRGame;
+import com.alekseyvecshev.sonicr.Sprites.ArrayObstacles;
+import com.alekseyvecshev.sonicr.Sprites.ArrayPlatforms;
 import com.alekseyvecshev.sonicr.Sprites.GameOver;
 import com.alekseyvecshev.sonicr.Sprites.Obstacle;
 import com.alekseyvecshev.sonicr.Sprites.Platform;
@@ -37,15 +39,14 @@ public class PlayState extends State implements GestureDetector.GestureListener 
     private boolean sonicDie;
     private int counterScore;
     private int ringsCount;
-
+    private ArrayPlatforms arrayPlatforms;
     private Sonic sonic;
     private Texture bg;
     private Texture textureScore;
     private GameOver gameOver;
     private ScoreTable scoreTable;
 
-    private Array<Platform> platforms;
-    private Queue<Obstacle> obstacles;
+    private ArrayObstacles obstacles;
     private Queue<Ring> rings;
     private Rectangle resultCollision;
     private BitmapFont font;
@@ -56,6 +57,7 @@ public class PlayState extends State implements GestureDetector.GestureListener 
     public PlayState(GameStateManager gsm) {
         super(gsm);
         sonic = new Sonic(100, 120);
+        arrayPlatforms = new ArrayPlatforms();
         sonicDie = false;
         font = new BitmapFont();
 
@@ -67,18 +69,9 @@ public class PlayState extends State implements GestureDetector.GestureListener 
 
 
         camera.setToOrtho(false, SonicRGame.WIDTH, SonicRGame.HEIGHT);
-        platforms = new Array<Platform>();
-        obstacles = new Queue<Obstacle>();
+        obstacles = new ArrayObstacles();
         rings = new Queue<Ring>();
         resultCollision = new Rectangle();
-
-        for (int i = 0; i < Platform.getPlatformCount(); i++) {
-            platforms.add(new Platform(i * Platform.getSizePlatformX()));
-        }
-
-        for (int i = 1; i <= Obstacle.getObstaclesNumbers(); i++) {
-            obstacles.addLast(new Obstacle((int) (i * 500)));
-        }
 
         gestureDetector = new GestureDetector(this);
         Gdx.input.setInputProcessor(gestureDetector);
@@ -88,7 +81,7 @@ public class PlayState extends State implements GestureDetector.GestureListener 
     protected void handleInput() {
     }
 
-    public void creatRings(Queue<Ring> rings, int sonicPos){
+    public void createRings(Queue<Ring> rings, int sonicPos){
         if ((int) (sonicPos % 3000) < 7){
             int j = (120 + rand.nextInt(3) * 180);
             for (int i = 0; i < Ring.getCOUNT_RING(); i++){
@@ -97,28 +90,11 @@ public class PlayState extends State implements GestureDetector.GestureListener 
         }
     }
 
-    void updatePlatform(){
-        for (Platform platform : platforms) {
-            if (camera.position.x - camera.viewportWidth > platform.getPosCentralPlatform().x) {
-                platform.reposition(platform.getPosBottomPlatform().x + (Platform.getSizePlatformX() * Platform.getPlatformCount()));
-            }
-        }
-    }
-
     void updateObstacles(){
-        if ((sonic.getPosition().x) > (+SonicRGame.HEIGHT + obstacles.first().getPosition().x)) {
-            obstacles.removeFirst();
-            obstacles.addLast(new Obstacle((int) (obstacles.last().getPosition().x)));
-        }
-        for (Obstacle obstacle : obstacles) {
-            if (sonic.timeSpinDash == 0) {
-                if (Intersector.intersectRectangles(sonic.getCollision(), obstacle.getCollision(), resultCollision)) {
-                    timeGameOver = 3;
-                    sonicDie = true;
-                    scoreTable.addBesetScore(counterScore);
-                    obstacles.clear();
-                }
-            }
+        if (obstacles.update(sonic.getPosition().x, (float) sonic.timeSpinDash, sonic.getCollision())) {
+            timeGameOver = 3;
+            sonicDie = true;
+            scoreTable.addBesetScore(counterScore);
         }
     }
 
@@ -128,7 +104,7 @@ public class PlayState extends State implements GestureDetector.GestureListener 
                 rings.removeFirst();
             }
         }
-        creatRings(rings, (int)sonic.getPosition().x);
+        createRings(rings, (int)sonic.getPosition().x);
         for (int i = 0; i < rings.size; i++){
             if (Intersector.intersectRectangles(sonic.getCollision(), rings.get(i).getCollision(), resultCollision)) {
                 rings.removeIndex(i);
@@ -144,7 +120,7 @@ public class PlayState extends State implements GestureDetector.GestureListener 
             sonic.update(dt);
             counterScore++;
             camera.position.x = sonic.getPosition().x;
-            updatePlatform();
+            arrayPlatforms.update(camera.position.x, camera.viewportWidth);
             updateObstacles();
             updateRings();
 
@@ -160,17 +136,11 @@ public class PlayState extends State implements GestureDetector.GestureListener 
     private void renderGame(SpriteBatch sb) {
 
         sb.draw(bg, camera.position.x - (camera.viewportWidth / 2), 0);
-        for (Platform platform : platforms) {
-            sb.draw(platform.getBottomPlatform(), platform.getPosBottomPlatform().x, platform.getPosBottomPlatform().y);
-            sb.draw(platform.getCentralPlatform(), platform.getPosCentralPlatform().x, platform.getPosCentralPlatform().y);
-            sb.draw(platform.getTopPlatform(), platform.getPosTopPlatform().x, platform.getPosTopPlatform().y);
-        }
+        arrayPlatforms.render(sb);
         for (Ring ring : rings){
             sb.draw(ring.getAnimation().getKeyFrame(sonic.getElapsedTime(), true), ring.getPosition().x, ring.getPosition().y);
         }
-        for (Obstacle obstacle : obstacles) {
-            sb.draw(obstacle.getRandSprite(), obstacle.getPosition().x, obstacle.getPosition().y);
-        }
+        obstacles.render(sb);
         if (sonic.timeSpinDash == 0) {
             sb.draw(sonic.getAnimation().getKeyFrame(sonic.getElapsedTime(), true), sonic.getPosition().x, sonic.getPosition().y);
         } else {

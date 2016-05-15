@@ -7,6 +7,7 @@ import com.alekseyvecshev.sonicr.Bosses.Robot.Bullet;
 import com.alekseyvecshev.sonicr.Bosses.Robot.FireBk;
 import com.alekseyvecshev.sonicr.Bosses.SonicHero;
 import com.alekseyvecshev.sonicr.SonicRGame;
+import com.alekseyvecshev.sonicr.Sprites.ArrayPlatforms;
 import com.alekseyvecshev.sonicr.Sprites.GameOver;
 import com.alekseyvecshev.sonicr.Sprites.LevelComplete;
 import com.alekseyvecshev.sonicr.Sprites.Platform;
@@ -30,6 +31,7 @@ import com.badlogic.gdx.utils.Queue;
 public class BossRobotState extends State implements GestureDetector.GestureListener {
     Rectangle resultCollision;
     private Array<Platform> platforms;
+    ArrayPlatforms arrayPlatforms;
     BossRobot robot;
     SonicHero sonic;
     ArrayBullets arrayBullets;
@@ -45,7 +47,6 @@ public class BossRobotState extends State implements GestureDetector.GestureList
         robot = new BossRobot();
         sonic = new SonicHero(200, 120);
         arrayBullets = new ArrayBullets();
-        platforms = new Array<Platform>();
         resultCollision = new Rectangle();
         anInterface = new Interface(sonic.getMaxHp(), robot.getMaxHp());
         gameOver = new GameOver();
@@ -53,11 +54,8 @@ public class BossRobotState extends State implements GestureDetector.GestureList
         fireBk = new FireBk();
 
         bk = new Texture("BossStage//BossRobot//bk.png");
+        arrayPlatforms = new ArrayPlatforms();
 
-
-        for (int i = 0; i < Platform.getPlatformCount(); i++) {
-            platforms.add(new Platform(i * Platform.getSizePlatformX()));
-        }
         camera.setToOrtho(false, SonicRGame.WIDTH, SonicRGame.HEIGHT);
 
         gestureDetector = new GestureDetector(this);
@@ -68,15 +66,6 @@ public class BossRobotState extends State implements GestureDetector.GestureList
     @Override
     protected void handleInput() {
     }
-
-    void updatePlatform(){
-        for (Platform platform : platforms) {
-            if (camera.position.x - camera.viewportWidth > platform.getPosCentralPlatform().x) {
-                platform.reposition(platform.getPosBottomPlatform().x + (Platform.getSizePlatformX() * Platform.getPlatformCount()));
-            }
-        }
-    }
-
 
     private void checkCollision(){
         for (int i = 0; i < arrayBullets.getBullets().size; i++) {
@@ -105,7 +94,7 @@ public class BossRobotState extends State implements GestureDetector.GestureList
         handleInput();
         sonic.update(dt);
         camera.position.x = sonic.getPosition().x + 300;
-        updatePlatform();
+        arrayPlatforms.update(camera.position.x, camera.viewportWidth);
         robot.update(dt, camera.position, arrayBullets.getSizeArrayBullets());
         fireBk.update(dt);
         if (robot.IsStateBullet() && (arrayBullets.getSizeArrayBullets() == 0)){
@@ -139,12 +128,6 @@ public class BossRobotState extends State implements GestureDetector.GestureList
     }
 
     private void renderGame(SpriteBatch sb){
-        for (Platform platform : platforms) {
-            sb.draw(platform.getBottomPlatform(), platform.getPosBottomPlatform().x, platform.getPosBottomPlatform().y);
-            sb.draw(platform.getCentralPlatform(), platform.getPosCentralPlatform().x, platform.getPosCentralPlatform().y);
-            sb.draw(platform.getTopPlatform(), platform.getPosTopPlatform().x, platform.getPosTopPlatform().y);
-        }
-
         if (robot.IsStateBullet()) {
             arrayBullets.render(sb);
         }
@@ -160,6 +143,7 @@ public class BossRobotState extends State implements GestureDetector.GestureList
         sb.begin();
         sb.setProjectionMatrix(camera.combined);
         sb.draw(bk, camera.position.x - SonicRGame.WIDTH / 2, 0);
+        arrayPlatforms.render(sb);
         if (sonic.getHp() > 0) {
             renderGame(sb);
             fireBk.render(sb, camera.position);
