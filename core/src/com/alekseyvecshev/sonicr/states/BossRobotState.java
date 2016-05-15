@@ -67,7 +67,6 @@ public class BossRobotState extends State implements GestureDetector.GestureList
 
     @Override
     protected void handleInput() {
-
     }
 
     void updatePlatform(){
