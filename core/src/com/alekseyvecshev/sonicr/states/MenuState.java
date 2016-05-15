@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 
 import java.util.Random;
 
@@ -21,6 +23,7 @@ public class MenuState extends State {
     private TextureAtlas startBt;
     private Sprite startIn;
     private Sprite startPress;
+    private Rectangle playBtnCollision;
 
 
     public MenuState(GameStateManager gsm) {
@@ -31,24 +34,26 @@ public class MenuState extends State {
         startBt = new TextureAtlas(Gdx.files.internal("menu//StartBt.txt"));
         startIn = new Sprite(startBt.createSprite("start"));
         startPress = new Sprite(startBt.createSprite("startPress"));
+        playBtnCollision = new Rectangle();
         camera.setToOrtho(false, SonicRGame.WIDTH, SonicRGame.HEIGHT);
     }
 
 
-
     @Override
     protected void handleInput() {
-
-        if (Gdx.input.justTouched()){
-            if ((490 < Gdx.input.getX() && (Gdx.input.getX() < (490 + startIn.getTexture().getWidth()))))
-                if ((445 < Gdx.input.getY() && (Gdx.input.getY() < (445 + startIn.getTexture().getHeight()))))
-                    gsm.set(new BossRobotState(gsm));
+        if (Gdx.input.justTouched()) {
+            Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+            camera.unproject(touchPos);
+            if (playBtnCollision.contains(touchPos.x, touchPos.y)) {
+                gsm.set(new SelectLevelState(gsm));
+            }
         }
     }
 
     @Override
     public void update(float dt) {
         handleInput();
+        playBtnCollision.set(490, 150, startIn.getWidth(), startIn.getHeight());
     }
 
     @Override

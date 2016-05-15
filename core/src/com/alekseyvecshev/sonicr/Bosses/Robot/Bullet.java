@@ -16,18 +16,18 @@ import java.util.Random;
  * Created by Алексей on 24.04.2016.
  */
 public class Bullet {
-    private static final int BULLET_QUANTITY = 30;
+
     private static final int SPEED = 6;
     private static final int CHANGE_DT = 100;
     private float elapsedTime = 0;
     private float elapsedTimeDie = 0;
-    private TextureAtlas moveTexture;
-    private TextureAtlas dieTexture;
+    private ArrayBullets arrayBullets;
     private Animation moveAnimation;
     private Animation dieAnimation;
     private Array<Sprite> sprites;
     private HelpersTool helpersTool;
-
+    private TextureAtlas moveTexture;
+    private TextureAtlas dieTexture;
     private Vector2 position;
     private Rectangle collision;
     private Random rand;
@@ -38,10 +38,10 @@ public class Bullet {
         rand = new Random();
         moveTexture = new TextureAtlas(Gdx.files.internal("BossStage//BossRobot//moveBullet.txt"));
         dieTexture = new TextureAtlas(Gdx.files.internal("BossStage//BossRobot//dieBullet.txt"));
+
         moveAnimation = new Animation(1/15f, moveTexture.getRegions());
         dieAnimation = new Animation(1/12f, dieTexture.getRegions());
-        sprites = moveTexture.createSprites();
-
+        //sprites = moveTexture.createSprites();
         position = new Vector2((i + 3000 + posSonic + moveTexture.getRegions().get(0).getRegionWidth()),
                 (130 + rand.nextInt(3) * 180));
         collision = new Rectangle();
@@ -68,9 +68,6 @@ public class Bullet {
         return position;
     }
 
-    public static int getBulletQuantity() {
-        return BULLET_QUANTITY;
-    }
 
     public Animation getMoveAnimation() {
         return moveAnimation;
