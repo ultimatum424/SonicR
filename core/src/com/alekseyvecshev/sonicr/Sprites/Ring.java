@@ -51,7 +51,6 @@ public class Ring {
         position = new Vector2(i + 10, y);
         collision = new Rectangle(position.x, position.y, texture.getWidth(), texture.getHeight());
 
-
     }
 
 

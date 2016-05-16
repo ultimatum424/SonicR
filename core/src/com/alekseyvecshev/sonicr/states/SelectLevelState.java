@@ -2,6 +2,7 @@ package com.alekseyvecshev.sonicr.states;
 
 import com.alekseyvecshev.sonicr.SonicRGame;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -35,17 +36,36 @@ public class SelectLevelState extends State{
 
     @Override
     protected void handleInput() {
-
+        Preferences prefs = Gdx.app.getPreferences("Level");
         if (Gdx.input.justTouched()) {
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
             System.out.println(touchPos);
-            if (lvl10.contains(touchPos.x, touchPos.y))
+            if (lvl10.contains(touchPos.x, touchPos.y)){
+                prefs.putInteger("number", 1);
+                prefs.flush();
                 gsm.set(new PlayState(gsm));
-            if (lvl11.contains(touchPos.x, touchPos.y))
+            }
+            if (lvl20.contains(touchPos.x, touchPos.y)){
+                prefs.putInteger("number", 2);
+                prefs.flush();
+                gsm.set(new PlayState(gsm));
+            }
+            if (lvl30.contains(touchPos.x, touchPos.y)){
+                prefs.putInteger("number", 3);
+                prefs.flush();
+                gsm.set(new PlayState(gsm));
+            }
+            if (lvl11.contains(touchPos.x, touchPos.y)) {
+                prefs.putInteger("number", 1);
+                prefs.flush();
                 gsm.set(new BossRobotState(gsm));
-            if (lvl21.contains(touchPos.x, touchPos.y))
+            }
+            if (lvl21.contains(touchPos.x, touchPos.y)) {
+                prefs.putInteger("number", 2);
+                prefs.flush();
                 gsm.set(new BossShadowState(gsm));
+            }
         }
     }
 
@@ -57,6 +77,7 @@ public class SelectLevelState extends State{
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();
+        sb.setProjectionMatrix(camera.combined);
         sb.draw(bk, 0 ,0);
         sb.end();
     }

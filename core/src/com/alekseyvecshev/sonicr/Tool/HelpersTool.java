@@ -10,10 +10,10 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class HelpersTool {
 
-    public Rectangle setCollision(Animation animation, float elapsedTime, Vector2 position){
+    public Rectangle setCollision(Animation animation, float elapsedTime, Vector2 position) {
         TextureRegion textureRegion = animation.getKeyFrame(elapsedTime);
         Vector2 size;
-        size = new Vector2(textureRegion.getRegionWidth(),textureRegion.getRegionHeight());
+        size = new Vector2(textureRegion.getRegionWidth(), textureRegion.getRegionHeight());
         Rectangle collision;
         collision = new Rectangle(position.x, position.y, size.x, size.y);
         return collision;

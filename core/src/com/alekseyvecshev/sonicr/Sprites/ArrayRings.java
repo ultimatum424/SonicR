@@ -1,7 +1,64 @@
 package com.alekseyvecshev.sonicr.Sprites;
 
+import com.alekseyvecshev.sonicr.SonicRGame;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Queue;
+
+import java.util.Random;
+
 /**
  * Created by Алексей on 15.05.2016.
  */
 public class ArrayRings {
+    Queue<Ring> rings;
+    private Random rand;
+    private float elapsedTime = 0;
+    private Rectangle resultCollision;
+    private int ringsCount;
+
+    public ArrayRings(){
+        rings = new  Queue<Ring>();
+        rand = new Random();
+        resultCollision = new Rectangle();
+    }
+    private void createRings(float sonicPos){
+        if ((int) (sonicPos % 3000) < 7){
+            int j = (120 + rand.nextInt(3) * 180);
+            for (int i = 0; i < Ring.getCOUNT_RING(); i++){
+                rings.addLast(new Ring((int) (i * 100 + sonicPos + 1000), j));
+            }
+        }
+    }
+    public void update(float dt, float sonicPosX, Rectangle sonicCollision){
+        elapsedTime += dt;
+        System.out.println(rings.size);
+        if (rings.size > 0) {
+            if ((sonicPosX) > (+SonicRGame.HEIGHT + rings.first().getPosition().x)) {
+                rings.removeFirst();
+            }
+        }
+        createRings(sonicPosX);
+        for (int i = 0; i < rings.size; i++){
+            if (Intersector.intersectRectangles(sonicCollision, rings.get(i).getCollision(), resultCollision)) {
+                rings.removeIndex(i);
+                ringsCount++;
+            }
+        }
+    }
+    public void render(SpriteBatch sb){
+        for (Ring ring : rings){
+            sb.draw(ring.getAnimation().getKeyFrame(elapsedTime, true), ring.getPosition().x, ring.getPosition().y);
+        }
+
+    }
+
+    public int getRingsCount() {
+        return ringsCount;
+    }
+
+    public void setRingsCount(int ringsCount) {
+        this.ringsCount = ringsCount;
+    }
 }

@@ -24,6 +24,7 @@ public class MenuState extends State {
     private Sprite startIn;
     private Sprite startPress;
     private Rectangle playBtnCollision;
+    private boolean isPress;
 
 
     public MenuState(GameStateManager gsm) {
@@ -41,6 +42,14 @@ public class MenuState extends State {
 
     @Override
     protected void handleInput() {
+        isPress = false;
+        if (Gdx.input.isTouched()){
+            Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+            camera.unproject(touchPos);
+            if (playBtnCollision.contains(touchPos.x, touchPos.y)) {
+                isPress = true;
+            }
+        }
         if (Gdx.input.justTouched()) {
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
@@ -61,7 +70,10 @@ public class MenuState extends State {
         sb.begin();
         sb.setProjectionMatrix(camera.combined);
         sb.draw(background, 0, 0, SonicRGame.WIDTH, SonicRGame.HEIGHT);
-        sb.draw(startIn, 490, 150);
+        if (isPress)
+            sb.draw(startPress, 490, 150);
+        else
+            sb.draw(startIn, 490, 150);
         sb.end();
     }
 

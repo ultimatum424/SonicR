@@ -1,6 +1,7 @@
 package com.alekseyvecshev.sonicr.Sprites;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -47,8 +48,10 @@ public class Obstacle {
     }
 
     public Obstacle(int i) {
-
-        textureAtlas = new TextureAtlas(Gdx.files.internal("gameScr\\Enemy\\obstacles.txt"));
+        Preferences prefs = Gdx.app.getPreferences("Level");
+        if (prefs.getInteger("number") == 1) {
+            textureAtlas = new TextureAtlas(Gdx.files.internal("gameScr\\Enemy\\obstacles.txt"));
+        }
         sprites = textureAtlas.createSprites();
         rand = new Random();
         randSprite = sprites.random();

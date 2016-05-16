@@ -1,5 +1,7 @@
 package com.alekseyvecshev.sonicr.Sprites;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -51,10 +53,13 @@ public class Platform {
 
     public Platform(float x){
         posPlatformY = new Vector3(80, 260, 440);
+        Preferences prefs = Gdx.app.getPreferences("Level");
+        if (prefs.getInteger("number") == 1) {
 
-        topPlatform = new Texture("gameScr\\platform2.png");
-        centralPlatform = new Texture("gameScr\\platform2.png");
-        bottomPlatform = new Texture("gameScr\\platform2.png");
+            topPlatform = new Texture("gameScr\\platform2.png");
+            centralPlatform = new Texture("gameScr\\platform2.png");
+            bottomPlatform = new Texture("gameScr\\platform2.png");
+        }
 
         posTopPlatform = new Vector2(x, posPlatformY.z);
         posCentralPlatform = new Vector2(x, posPlatformY.y);

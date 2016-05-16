@@ -3,6 +3,7 @@ package com.alekseyvecshev.sonicr.states;
 import com.alekseyvecshev.sonicr.SonicRGame;
 import com.alekseyvecshev.sonicr.Sprites.ArrayObstacles;
 import com.alekseyvecshev.sonicr.Sprites.ArrayPlatforms;
+import com.alekseyvecshev.sonicr.Sprites.ArrayRings;
 import com.alekseyvecshev.sonicr.Sprites.GameOver;
 import com.alekseyvecshev.sonicr.Sprites.Obstacle;
 import com.alekseyvecshev.sonicr.Sprites.Platform;
@@ -38,16 +39,14 @@ public class PlayState extends State implements GestureDetector.GestureListener 
     private float timeGameOver;
     private boolean sonicDie;
     private int counterScore;
-    private int ringsCount;
     private ArrayPlatforms arrayPlatforms;
     private Sonic sonic;
     private Texture bg;
     private Texture textureScore;
     private GameOver gameOver;
     private ScoreTable scoreTable;
-
     private ArrayObstacles obstacles;
-    private Queue<Ring> rings;
+    private ArrayRings rings;
     private Rectangle resultCollision;
     private BitmapFont font;
     private Random rand;
@@ -70,7 +69,7 @@ public class PlayState extends State implements GestureDetector.GestureListener 
 
         camera.setToOrtho(false, SonicRGame.WIDTH, SonicRGame.HEIGHT);
         obstacles = new ArrayObstacles();
-        rings = new Queue<Ring>();
+        rings = new ArrayRings();
         resultCollision = new Rectangle();
 
         gestureDetector = new GestureDetector(this);
@@ -81,35 +80,11 @@ public class PlayState extends State implements GestureDetector.GestureListener 
     protected void handleInput() {
     }
 
-    public void createRings(Queue<Ring> rings, int sonicPos){
-        if ((int) (sonicPos % 3000) < 7){
-            int j = (120 + rand.nextInt(3) * 180);
-            for (int i = 0; i < Ring.getCOUNT_RING(); i++){
-                rings.addLast(new Ring((int) (i * 100 + sonicPos + 1000), j));
-            }
-        }
-    }
-
     void updateObstacles(){
         if (obstacles.update(sonic.getPosition().x, (float) sonic.timeSpinDash, sonic.getCollision())) {
             timeGameOver = 3;
             sonicDie = true;
             scoreTable.addBesetScore(counterScore);
-        }
-    }
-
-    void updateRings(){
-        if (rings.size > 0){
-            if ((sonic.getPosition().x) > (+SonicRGame.HEIGHT + rings.first().getPosition().x)) {
-                rings.removeFirst();
-            }
-        }
-        createRings(rings, (int)sonic.getPosition().x);
-        for (int i = 0; i < rings.size; i++){
-            if (Intersector.intersectRectangles(sonic.getCollision(), rings.get(i).getCollision(), resultCollision)) {
-                rings.removeIndex(i);
-                ringsCount++;
-            }
         }
     }
 
@@ -122,12 +97,12 @@ public class PlayState extends State implements GestureDetector.GestureListener 
             camera.position.x = sonic.getPosition().x;
             arrayPlatforms.update(camera.position.x, camera.viewportWidth);
             updateObstacles();
-            updateRings();
+            rings.update(dt, sonic.getPosition().x, sonic.getCollision());
 
         } else {
             timeGameOver -= dt;
             if (timeGameOver < 0) {
-                gsm.set(new PlayState(gsm));
+                gsm.set(new SelectLevelState(gsm));
             }
         }
         camera.update();
@@ -137,17 +112,15 @@ public class PlayState extends State implements GestureDetector.GestureListener 
 
         sb.draw(bg, camera.position.x - (camera.viewportWidth / 2), 0);
         arrayPlatforms.render(sb);
-        for (Ring ring : rings){
-            sb.draw(ring.getAnimation().getKeyFrame(sonic.getElapsedTime(), true), ring.getPosition().x, ring.getPosition().y);
-        }
         obstacles.render(sb);
+        rings.render(sb);
         if (sonic.timeSpinDash == 0) {
             sb.draw(sonic.getAnimation().getKeyFrame(sonic.getElapsedTime(), true), sonic.getPosition().x, sonic.getPosition().y);
         } else {
             sb.draw(sonic.getAnimationSpinDash().getKeyFrame(sonic.getElapsedTime(), true), sonic.getPosition().x, sonic.getPosition().y);
         }
         sb.draw(textureScore, camera.position.x + 500, camera.position.y + 280);
-        font.draw(sb, "" + ringsCount, camera.position.x + 550, camera.position.y + 320);
+        font.draw(sb, "" + rings.getRingsCount(), camera.position.x + 550, camera.position.y + 320);
         sb.draw(sonic.getBkStatusBar(), camera.position.x + 250, camera.position.y + 300);
         sb.draw(sonic.getStatusBar(), camera.position.x + 251, camera.position.y + 301,
                 (float)(sonic.getStatusBar().getWidth()* (sonic.levelSpinDash /sonic.MAX_LEVEL_SPINDASH)), sonic.getStatusBar().getHeight());
