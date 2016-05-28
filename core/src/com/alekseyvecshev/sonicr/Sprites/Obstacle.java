@@ -18,10 +18,9 @@ import java.util.Random;
  */
 public class Obstacle {
     private static final int OBSTACLES_NUMBERS = 10;
-    private Array<Sprite> sprites;
+
     private Texture obstacle;
     private Vector2 position;
-    private TextureAtlas textureAtlas;
     private Sprite randSprite;
     private Rectangle collision;
     private Random rand;
@@ -39,22 +38,17 @@ public class Obstacle {
         return position;
     }
 
-    public Array<Sprite> getSprites() {
-        return sprites;
-    }
+   // public Array<Sprite> getSprites() {
+      //  return sprites;
+    //}
 
     public Sprite getRandSprite() {
         return randSprite;
     }
 
-    public Obstacle(int i) {
+    public Obstacle(int i, Sprite sprite) {
+        randSprite = new Sprite(sprite);
         Preferences prefs = Gdx.app.getPreferences("Level");
-        if (prefs.getInteger("number") == 1) {
-            textureAtlas = new TextureAtlas(Gdx.files.internal("gameScr\\Enemy\\obstacles.txt"));
-        }
-        sprites = textureAtlas.createSprites();
-        rand = new Random();
-        randSprite = sprites.random();
         position = new Vector2((i + 150 + randSprite.getRegionWidth()), (120 + rand.nextInt(3) * 180));
         collision = new Rectangle(position.x, position.y, randSprite.getWidth(), randSprite.getHeight());
     }
@@ -65,7 +59,7 @@ public class Obstacle {
     }
 
     public void dispose() {
-        textureAtlas.dispose();
+
     }
 
     public void reposition(float x) {
