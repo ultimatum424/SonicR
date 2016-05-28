@@ -15,16 +15,12 @@ public class Platform {
     private static final int SIZE_PLATFORM_X = 165;
     private static final int PLATFORM_COUNT = 20;
 
-    private Texture centralPlatform, topPlatform, bottomPlatform;
+    private Texture centralPlatform;
     private Vector2 posCentralPlatform, posTopPlatform, posBottomPlatform;
     private Vector3 posPlatformY;
 
     public Texture getCentralPlatform() {
         return centralPlatform;
-    }
-
-    public Texture getTopPlatform() {
-        return topPlatform;
     }
 
     public static int getSizePlatformX() {
@@ -35,9 +31,6 @@ public class Platform {
         return PLATFORM_COUNT;
     }
 
-    public Texture getBottomPlatform() {
-        return bottomPlatform;
-    }
 
     public Vector2 getPosCentralPlatform() {
         return posCentralPlatform;
@@ -53,13 +46,6 @@ public class Platform {
 
     public Platform(float x){
         posPlatformY = new Vector3(80, 260, 440);
-        Preferences prefs = Gdx.app.getPreferences("Level");
-        if (prefs.getInteger("number") == 1) {
-
-            topPlatform = new Texture("gameScr\\platform2.png");
-            centralPlatform = new Texture("gameScr\\platform2.png");
-            bottomPlatform = new Texture("gameScr\\platform2.png");
-        }
 
         posTopPlatform = new Vector2(x, posPlatformY.z);
         posCentralPlatform = new Vector2(x, posPlatformY.y);

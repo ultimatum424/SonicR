@@ -15,18 +15,9 @@ public class Ring {
     private static final int COUNT_RING = 10;
 
     private Texture texture;
-
-
-    private TextureAtlas textureAtlas;
-    private Animation animation;
-
     private Vector2 position;
     private Rectangle collision;
 
-
-    public Animation getAnimation() {
-        return animation;
-    }
 
     public Texture getTexture() {
         return texture;
@@ -46,17 +37,13 @@ public class Ring {
 
     public Ring(float i, float y){
         texture = new Texture("gameScr\\Ring\\oneRing.png");
-        textureAtlas = new TextureAtlas(Gdx.files.internal("gameScr\\Ring\\ring.txt"));
-        animation = new Animation(1/8f, textureAtlas.getRegions());
         position = new Vector2(i + 10, y);
         collision = new Rectangle(position.x, position.y, texture.getWidth(), texture.getHeight());
 
     }
 
-
     public void dispose(){
-        texture.dispose();
-        textureAtlas.dispose();
+        //texture.dispose();
     }
 }
 

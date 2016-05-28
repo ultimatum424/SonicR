@@ -38,17 +38,13 @@ public class Obstacle {
         return position;
     }
 
-   // public Array<Sprite> getSprites() {
-      //  return sprites;
-    //}
-
     public Sprite getRandSprite() {
         return randSprite;
     }
 
     public Obstacle(int i, Sprite sprite) {
+        rand = new Random();
         randSprite = new Sprite(sprite);
-        Preferences prefs = Gdx.app.getPreferences("Level");
         position = new Vector2((i + 150 + randSprite.getRegionWidth()), (120 + rand.nextInt(3) * 180));
         collision = new Rectangle(position.x, position.y, randSprite.getWidth(), randSprite.getHeight());
     }

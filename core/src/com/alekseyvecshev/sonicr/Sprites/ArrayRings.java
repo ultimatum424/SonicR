@@ -1,7 +1,10 @@
 package com.alekseyvecshev.sonicr.Sprites;
 
 import com.alekseyvecshev.sonicr.SonicRGame;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Queue;
@@ -15,6 +18,8 @@ public class ArrayRings {
     Queue<Ring> rings;
     private Random rand;
     private float elapsedTime = 0;
+    private TextureAtlas textureAtlas;
+    private Animation animation;
     private Rectangle resultCollision;
     private int ringsCount;
 
@@ -22,6 +27,8 @@ public class ArrayRings {
         rings = new  Queue<Ring>();
         rand = new Random();
         resultCollision = new Rectangle();
+        textureAtlas = new TextureAtlas(Gdx.files.internal("gameScr\\Ring\\ring.txt"));
+        animation = new Animation(1/8f, textureAtlas.getRegions());
     }
     private void createRings(float sonicPos){
         if ((int) (sonicPos % 3000) < 7){
@@ -49,7 +56,7 @@ public class ArrayRings {
     }
     public void render(SpriteBatch sb){
         for (Ring ring : rings){
-            sb.draw(ring.getAnimation().getKeyFrame(elapsedTime, true), ring.getPosition().x, ring.getPosition().y);
+            sb.draw(animation.getKeyFrame(elapsedTime, true), ring.getPosition().x, ring.getPosition().y);
         }
 
     }
