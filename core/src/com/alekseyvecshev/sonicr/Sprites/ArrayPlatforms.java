@@ -1,5 +1,8 @@
 package com.alekseyvecshev.sonicr.Sprites;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
@@ -10,10 +13,14 @@ import com.badlogic.gdx.utils.Array;
 public class ArrayPlatforms {
 
     private Array<Platform> platforms;
+    private Texture texturePlatform;
 
     public ArrayPlatforms(){
         platforms = new Array<Platform>();
-
+        Preferences prefs = Gdx.app.getPreferences("Level");
+        if (prefs.getInteger("number") == 1) {
+            texturePlatform = new Texture("gameScr\\platform2.png");
+        }
         for (int i = 0; i < Platform.getPlatformCount(); i++) {
             platforms.add(new Platform(i * Platform.getSizePlatformX()));
         }
@@ -27,9 +34,9 @@ public class ArrayPlatforms {
     }
     public void render(SpriteBatch sb){
         for (Platform platform : platforms) {
-            sb.draw(platform.getBottomPlatform(), platform.getPosBottomPlatform().x, platform.getPosBottomPlatform().y);
-            sb.draw(platform.getCentralPlatform(), platform.getPosCentralPlatform().x, platform.getPosCentralPlatform().y);
-            sb.draw(platform.getTopPlatform(), platform.getPosTopPlatform().x, platform.getPosTopPlatform().y);
+            sb.draw(texturePlatform, platform.getPosBottomPlatform().x, platform.getPosBottomPlatform().y);
+            sb.draw(texturePlatform, platform.getPosCentralPlatform().x, platform.getPosCentralPlatform().y);
+            sb.draw(texturePlatform, platform.getPosTopPlatform().x, platform.getPosTopPlatform().y);
         }
     }
 }
