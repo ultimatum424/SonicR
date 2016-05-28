@@ -1,7 +1,9 @@
 package com.alekseyvecshev.sonicr.Bosses.Robot;
 
 import com.alekseyvecshev.sonicr.SonicRGame;
+import com.alekseyvecshev.sonicr.Tool.HelpersTool;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -13,24 +15,36 @@ import com.badlogic.gdx.utils.Queue;
 public class ArrayBullets {
     Queue<Bullet> bullets;
     private static final int BULLET_QUANTITY = 30;
-
+    private TextureAtlas moveTexture;
+    private TextureAtlas dieTexture;
+    private Animation moveAnimation;
+    private Animation dieAnimation;
+    private HelpersTool helpersTool;
+    private float elapsedTime = 0;
 
     public ArrayBullets(){
         bullets = new Queue<Bullet>();
+        helpersTool = new HelpersTool();
+        moveTexture = new TextureAtlas(Gdx.files.internal("BossStage//BossRobot//moveBullet.txt"));
+        dieTexture = new TextureAtlas(Gdx.files.internal("BossStage//BossRobot//dieBullet.txt"));
+        moveAnimation = new Animation(1/15f, moveTexture.getRegions());
+        dieAnimation = new Animation(1/12f, dieTexture.getRegions());
 
     }
     public void createBullet(Vector2 posSonic){
         for (int i = 0; i < BULLET_QUANTITY; i++){
-            bullets.addLast(new Bullet(i * 500, (int) posSonic.x));
+            bullets.addLast(new Bullet(i * 500, (int) posSonic.x,  moveTexture.getRegions().get(0).getRegionWidth()));
         }
     }
 
     public void updateBullet(float dt, Vector2 posSonic){
+         elapsedTime += dt;
         if (bullets.size > 0){
             if ((posSonic.x) > (+SonicRGame.HEIGHT + bullets.first().getPosition().x)) {
                 bullets.removeFirst();
             }
             for (Bullet bullet : bullets){
+                bullet.setCollision(helpersTool.setCollision(moveAnimation, elapsedTime, bullet.getPosition()));
                 bullet.update(dt);
             }
         }
@@ -38,9 +52,9 @@ public class ArrayBullets {
     public void render(SpriteBatch sb){
         for (Bullet bullet : bullets) {
             if (bullet.isDie()) {
-                sb.draw(bullet.getDieAnimation().getKeyFrame(bullet.getElapsedTimeDie(), false), bullet.getPosition().x, bullet.getPosition().y);
+                sb.draw(dieAnimation.getKeyFrame(bullet.getElapsedTimeDie(), false), bullet.getPosition().x, bullet.getPosition().y);
             } else {
-                sb.draw(bullet.getMoveAnimation().getKeyFrame(bullet.getElapsedTime(), true), bullet.getPosition().x, bullet.getPosition().y);
+                sb.draw(moveAnimation.getKeyFrame(elapsedTime, true), bullet.getPosition().x, bullet.getPosition().y);
             }
         }
     }

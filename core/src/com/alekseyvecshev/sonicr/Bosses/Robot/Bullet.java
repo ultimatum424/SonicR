@@ -19,30 +19,16 @@ public class Bullet {
 
     private static final int SPEED = 6;
     private static final int CHANGE_DT = 100;
-    private float elapsedTime = 0;
     private float elapsedTimeDie = 0;
-    private ArrayBullets arrayBullets;
-    private Animation moveAnimation;
-    private Animation dieAnimation;
-    private Array<Sprite> sprites;
-    private HelpersTool helpersTool;
-    private TextureAtlas moveTexture;
-    private TextureAtlas dieTexture;
+
     private Vector2 position;
     private Rectangle collision;
     private Random rand;
     private boolean isDie;
 
-    public Bullet(int i, int posSonic) {
-        helpersTool = new HelpersTool();
+    public Bullet(int i, int posSonic, float size) {
         rand = new Random();
-        moveTexture = new TextureAtlas(Gdx.files.internal("BossStage//BossRobot//moveBullet.txt"));
-        dieTexture = new TextureAtlas(Gdx.files.internal("BossStage//BossRobot//dieBullet.txt"));
-
-        moveAnimation = new Animation(1/15f, moveTexture.getRegions());
-        dieAnimation = new Animation(1/12f, dieTexture.getRegions());
-        //sprites = moveTexture.createSprites();
-        position = new Vector2((i + 3000 + posSonic + moveTexture.getRegions().get(0).getRegionWidth()),
+        position = new Vector2((i + 3000 + posSonic +size),
                 (130 + rand.nextInt(3) * 180));
         collision = new Rectangle();
         isDie = false;
@@ -50,7 +36,6 @@ public class Bullet {
 
 
     public void update(float dt){
-        elapsedTime += dt;
         if (isDie()){
             elapsedTimeDie += dt;
         }
@@ -58,9 +43,6 @@ public class Bullet {
         if (isDie) {
             collision.set(0,0, 0, 0);
         }
-        else {
-            collision.set(helpersTool.setCollision(moveAnimation, elapsedTime, position));
-            }
     }
 
 
@@ -68,17 +50,8 @@ public class Bullet {
         return position;
     }
 
-
-    public Animation getMoveAnimation() {
-        return moveAnimation;
-    }
-
-    public Animation getDieAnimation() {
-        return dieAnimation;
-    }
-
-    public float getElapsedTime() {
-        return elapsedTime;
+    public void setCollision(Rectangle collision) {
+        this.collision = collision;
     }
 
     public Rectangle getCollision() {
