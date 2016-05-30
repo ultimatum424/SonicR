@@ -16,13 +16,12 @@ public class SonicHero {
     private static final int SPEED_BOOST = 2;
     private static final int CHANGE_DT = 100;
     private static final int MAX_LEVEL_SPINDASH = 2;
-    private static final int MAX_HP = 30;
+    private static final int MAX_HP = 20;
     private Vector2 position;
     private TextureAtlas textureAtlasRun;
     private Animation animationRun;
     private TextureAtlas textureAtlasSpinDash;
     private Animation animationSpinDash;
-    private TextureAtlas textureAtlasInterface;
     private Rectangle collision;
     private float elapsedTime = 0;
     private double timeSpinDash = 0;

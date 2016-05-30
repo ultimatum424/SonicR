@@ -130,7 +130,7 @@ public class BossRobotState extends State implements GestureDetector.GestureList
         anInterface.render(sb);
     }
     private void renderLoseGame(SpriteBatch sb){
-        gameOver.render(sb, gameOver.getTimerGameOver() / 3, camera.position);
+        gameOver.render(sb, camera.position);
     }
     @Override
     public void render(SpriteBatch sb) {

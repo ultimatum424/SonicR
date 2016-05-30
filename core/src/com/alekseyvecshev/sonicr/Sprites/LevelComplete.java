@@ -19,7 +19,7 @@ public class LevelComplete {
 
     public LevelComplete(){
 
-        bg = new Texture("gameScr\\gameOver\\bg.png");
+        bg = new Texture("gameScr\\levelEnd.png");
     }
     public void update(float dt){
 

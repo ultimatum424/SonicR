@@ -25,8 +25,6 @@ import java.util.Random;
 public class PlayState extends State implements GestureDetector.GestureListener {
 
     private float timeGameOver;
-    private boolean sonicDie;
-
     private int counterScore;
     private ArrayPlatforms arrayPlatforms;
     private Sonic sonic;
@@ -46,8 +44,6 @@ public class PlayState extends State implements GestureDetector.GestureListener 
         super(gsm);
         sonic = new Sonic(100, 120);
         arrayPlatforms = new ArrayPlatforms();
-        sonicDie = false;
-
         font = new BitmapFont();
         Preferences prefs = Gdx.app.getPreferences("Level");
         if (prefs.getInteger("number") == 1) {
@@ -61,6 +57,7 @@ public class PlayState extends State implements GestureDetector.GestureListener 
         }
         textureScore = new Texture("gameScr\\Ring\\r_ring.png");
         gameOver = new GameOver();
+
         scoreTable = new ScoreTable();
         rand = new Random();
 
@@ -80,8 +77,8 @@ public class PlayState extends State implements GestureDetector.GestureListener 
 
     private void updateObstacles(){
         if (obstacles.update(sonic.getPosition().x, (float) sonic.timeSpinDash, sonic.getCollision())) {
-            timeGameOver = 3;
-            sonicDie = true;
+            gameOver.setTimerGameOver(3);
+            gameOver.setSonicDie(true);
             scoreTable.addBesetScore(counterScore);
         }
     }
@@ -89,7 +86,7 @@ public class PlayState extends State implements GestureDetector.GestureListener 
     {
         if (rings.getRingsCount() >= rings.RINGS_FOR_END)
         {
-            timeGameOver = 3;
+            gameOver.setTimerGameOver(3);
             gameOver.setIsComplete(true);
             scoreTable.addBesetScore(counterScore);
         }
@@ -97,9 +94,9 @@ public class PlayState extends State implements GestureDetector.GestureListener 
     @Override
     public void update(float dt) {
         handleInput();
-        if ((sonicDie) || ( gameOver.isComplete())) {
-            timeGameOver -= dt;
-            if (timeGameOver < 0) {
+        if ((gameOver.isSonicDie()) || ( gameOver.isComplete())) {
+            gameOver.setTimerGameOver(gameOver.getTimerGameOver() - dt);
+            if (gameOver.getTimerGameOver() < 0) {
                 gsm.set(new SelectLevelState(gsm));
             }
         }
@@ -136,13 +133,13 @@ public class PlayState extends State implements GestureDetector.GestureListener 
     }
 
     private void renderLoseGame(SpriteBatch sb) {
-        gameOver.render(sb, (timeGameOver / 3), camera.position);
+        gameOver.render(sb, camera.position);
         int temp = scoreTable.getBestScore();
         font.draw(sb, "Best score: " + temp, camera.position.x - 200, camera.position.y - 196);
         font.draw(sb, "Score: " + counterScore, camera.position.x + 100, camera.position.y - 196);
     }
     private void renderCompleted(SpriteBatch sb){
-        gameOver.render(sb, (timeGameOver / 3), camera.position);
+        gameOver.render(sb, camera.position);
     }
 
     @Override
@@ -151,7 +148,7 @@ public class PlayState extends State implements GestureDetector.GestureListener 
 
         sb.begin();
         renderGame(sb);
-        if (sonicDie){
+        if (gameOver.isSonicDie()){
             renderLoseGame(sb);
         }
         //System.out.println(Gdx.graphics.getFramesPerSecond());
