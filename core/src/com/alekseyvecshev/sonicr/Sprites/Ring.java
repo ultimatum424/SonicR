@@ -36,14 +36,12 @@ public class Ring {
     }
 
     public Ring(float i, float y){
-        texture = new Texture("gameScr\\Ring\\oneRing.png");
+        //texture = new Texture("gameScr\\Ring\\oneRing.png");
         position = new Vector2(i + 10, y);
-        collision = new Rectangle(position.x, position.y, texture.getWidth(), texture.getHeight());
-
+        collision = new Rectangle(position.x, position.y, 32, 46);
     }
 
     public void dispose(){
-        //texture.dispose();
     }
 }
 

@@ -12,20 +12,11 @@ import com.badlogic.gdx.math.Vector3;
  */
 public class Platform {
 
-    private static final int SIZE_PLATFORM_X = 165;
+    private static final int SIZE_PLATFORM_X = 474;
     private static final int PLATFORM_COUNT = 20;
 
-    private Texture centralPlatform;
     private Vector2 posCentralPlatform, posTopPlatform, posBottomPlatform;
     private Vector3 posPlatformY;
-
-    public Texture getCentralPlatform() {
-        return centralPlatform;
-    }
-
-    public static int getSizePlatformX() {
-        return SIZE_PLATFORM_X;
-    }
 
     public static int getPlatformCount() {
         return PLATFORM_COUNT;

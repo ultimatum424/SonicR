@@ -34,7 +34,6 @@ public class ArrayObstacles {
             rand = new Random();
             obstacles.addLast(new Obstacle((int) (i * 500), sprites.random()));
         }
-
     }
 
     public boolean update(float sonicPosX, float timeSpinDash, Rectangle sonicCollision){

@@ -3,7 +3,6 @@ package com.alekseyvecshev.sonicr.states;
 import com.alekseyvecshev.sonicr.Bosses.Interface;
 import com.alekseyvecshev.sonicr.Bosses.Robot.ArrayBullets;
 import com.alekseyvecshev.sonicr.Bosses.Robot.BossRobot;
-import com.alekseyvecshev.sonicr.Bosses.Robot.Bullet;
 import com.alekseyvecshev.sonicr.Bosses.Robot.FireBk;
 import com.alekseyvecshev.sonicr.Bosses.SonicHero;
 import com.alekseyvecshev.sonicr.SonicRGame;
@@ -11,19 +10,14 @@ import com.alekseyvecshev.sonicr.Sprites.ArrayPlatforms;
 import com.alekseyvecshev.sonicr.Sprites.GameOver;
 import com.alekseyvecshev.sonicr.Sprites.LevelComplete;
 import com.alekseyvecshev.sonicr.Sprites.Platform;
-import com.alekseyvecshev.sonicr.states.GameStateManager;
-import com.alekseyvecshev.sonicr.states.State;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Queue;
 
 /**
  * Created by Алексей on 24.04.2016.
@@ -94,7 +88,7 @@ public class BossRobotState extends State implements GestureDetector.GestureList
         handleInput();
         sonic.update(dt);
         camera.position.x = sonic.getPosition().x + 300;
-        arrayPlatforms.update(camera.position.x, camera.viewportWidth);
+        arrayPlatforms.update(camera.position.x, camera.viewportWidth, dt);
         robot.update(dt, camera.position, arrayBullets.getSizeArrayBullets());
         fireBk.update(dt);
         if (robot.IsStateBullet() && (arrayBullets.getSizeArrayBullets() == 0)){
