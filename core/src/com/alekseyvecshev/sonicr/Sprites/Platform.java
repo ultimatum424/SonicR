@@ -12,7 +12,6 @@ import com.badlogic.gdx.math.Vector3;
  */
 public class Platform {
 
-    private static final int SIZE_PLATFORM_X = 474;
     private static final int PLATFORM_COUNT = 20;
 
     private Vector2 posCentralPlatform, posTopPlatform, posBottomPlatform;

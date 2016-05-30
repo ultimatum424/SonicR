@@ -12,7 +12,7 @@ import com.badlogic.gdx.math.Vector3;
 /**
  * Created by Алексей on 18.04.2016.
  */
-public class GameOver {
+public class EndLevel {
     private TextureAtlas textureAtlas;
     private Sprite gameOver;
     private Sprite progressBar;
@@ -20,11 +20,11 @@ public class GameOver {
     private Sprite levelComplete;
     private boolean isComplete;
     private Texture bg;
-    float timerGameOver;
+    private float timerGameOver;
     private boolean sonicDie;
 
 
-    public GameOver(){
+    public EndLevel(){
         sonicDie = false;
         isComplete = false;
         timerGameOver = 0;

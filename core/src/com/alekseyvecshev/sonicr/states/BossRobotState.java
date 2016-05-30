@@ -7,7 +7,7 @@ import com.alekseyvecshev.sonicr.Bosses.Robot.FireBk;
 import com.alekseyvecshev.sonicr.Bosses.SonicHero;
 import com.alekseyvecshev.sonicr.SonicRGame;
 import com.alekseyvecshev.sonicr.Sprites.ArrayPlatforms;
-import com.alekseyvecshev.sonicr.Sprites.GameOver;
+import com.alekseyvecshev.sonicr.Sprites.EndLevel;
 import com.alekseyvecshev.sonicr.Sprites.LevelComplete;
 import com.alekseyvecshev.sonicr.Sprites.Platform;
 import com.badlogic.gdx.Gdx;
@@ -30,7 +30,7 @@ public class BossRobotState extends State implements GestureDetector.GestureList
     SonicHero sonic;
     ArrayBullets arrayBullets;
     Interface anInterface;
-    GameOver gameOver;
+    EndLevel endLevel;
     LevelComplete levelComplete;
     GestureDetector gestureDetector;
     Texture bk;
@@ -43,7 +43,7 @@ public class BossRobotState extends State implements GestureDetector.GestureList
         arrayBullets = new ArrayBullets();
         resultCollision = new Rectangle();
         anInterface = new Interface(sonic.getMaxHp(), robot.getMaxHp());
-        gameOver = new GameOver();
+        endLevel = new EndLevel();
         levelComplete = new LevelComplete();
         fireBk = new FireBk();
 
@@ -100,13 +100,13 @@ public class BossRobotState extends State implements GestureDetector.GestureList
 
         anInterface.update(dt, camera.position, sonic.getHp(), robot.getHp(), sonic.getLevelSpinDash());
 
-        if (((sonic.getHp() <= 0) && (robot.getHp() > 0)) && (gameOver.getTimerGameOver() == 0)) {
-            gameOver.setTimerGameOver(3);
+        if (((sonic.getHp() <= 0) && (robot.getHp() > 0)) && (endLevel.getTimerGameOver() == 0)) {
+            endLevel.setTimerGameOver(3);
         }
-        if (gameOver.getTimerGameOver() > 0){
-            gameOver.setTimerGameOver(gameOver.getTimerGameOver() - dt);
+        if (endLevel.getTimerGameOver() > 0){
+            endLevel.setTimerGameOver(endLevel.getTimerGameOver() - dt);
         }
-        if (gameOver.getTimerGameOver() < 0){
+        if (endLevel.getTimerGameOver() < 0){
                 gsm.set(new SelectLevelState(gsm));
         }
         if (((sonic.getHp() > 0) && (robot.getHp() <= 0)) && (levelComplete.getTimer() == 0)) {
@@ -130,7 +130,7 @@ public class BossRobotState extends State implements GestureDetector.GestureList
         anInterface.render(sb);
     }
     private void renderLoseGame(SpriteBatch sb){
-        gameOver.render(sb, camera.position);
+        endLevel.render(sb, camera.position);
     }
     @Override
     public void render(SpriteBatch sb) {

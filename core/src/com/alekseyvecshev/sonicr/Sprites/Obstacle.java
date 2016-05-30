@@ -18,8 +18,6 @@ import java.util.Random;
  */
 public class Obstacle {
     private static final int OBSTACLES_NUMBERS = 10;
-
-    private Texture obstacle;
     private Vector2 position;
     private Sprite randSprite;
     private Rectangle collision;

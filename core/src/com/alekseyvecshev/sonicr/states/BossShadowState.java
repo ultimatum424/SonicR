@@ -4,7 +4,7 @@ import com.alekseyvecshev.sonicr.Bosses.Interface;
 import com.alekseyvecshev.sonicr.Bosses.Shadow.BossShadow;
 import com.alekseyvecshev.sonicr.Bosses.SonicHero;
 import com.alekseyvecshev.sonicr.SonicRGame;
-import com.alekseyvecshev.sonicr.Sprites.GameOver;
+import com.alekseyvecshev.sonicr.Sprites.EndLevel;
 import com.alekseyvecshev.sonicr.Sprites.LevelComplete;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -22,7 +22,7 @@ public class BossShadowState extends State implements GestureDetector.GestureLis
     BossShadow shadow;
     Interface anInterface;
     LevelComplete levelComplete;
-    GameOver gameOver;
+    EndLevel endLevel;
     GestureDetector gestureDetector;
     Texture bg;
 
@@ -32,7 +32,7 @@ public class BossShadowState extends State implements GestureDetector.GestureLis
         sonic = new SonicHero(200, 120);
         shadow = new BossShadow();
         resultCollision = new Rectangle();
-        gameOver = new GameOver();
+        endLevel = new EndLevel();
         levelComplete = new LevelComplete();
         anInterface = new Interface(sonic.getMaxHp(), shadow.getMaxHp());
         camera.setToOrtho(false, SonicRGame.WIDTH, SonicRGame.HEIGHT);

@@ -4,7 +4,7 @@ import com.alekseyvecshev.sonicr.SonicRGame;
 import com.alekseyvecshev.sonicr.Sprites.ArrayObstacles;
 import com.alekseyvecshev.sonicr.Sprites.ArrayPlatforms;
 import com.alekseyvecshev.sonicr.Sprites.ArrayRings;
-import com.alekseyvecshev.sonicr.Sprites.GameOver;
+import com.alekseyvecshev.sonicr.Sprites.EndLevel;
 import com.alekseyvecshev.sonicr.Sprites.Sonic;
 import com.alekseyvecshev.sonicr.Tool.ScoreTable;
 import com.badlogic.gdx.Gdx;
@@ -30,7 +30,7 @@ public class PlayState extends State implements GestureDetector.GestureListener 
     private Sonic sonic;
     private Texture bk;
     private Texture textureScore;
-    private GameOver gameOver;
+    private EndLevel endLevel;
     private ScoreTable scoreTable;
     private ArrayObstacles obstacles;
     private ArrayRings rings;
@@ -56,7 +56,7 @@ public class PlayState extends State implements GestureDetector.GestureListener 
             bk = new Texture("gameScr\\bk3.png");
         }
         textureScore = new Texture("gameScr\\Ring\\r_ring.png");
-        gameOver = new GameOver();
+        endLevel = new EndLevel();
 
         scoreTable = new ScoreTable();
         rand = new Random();
@@ -77,8 +77,8 @@ public class PlayState extends State implements GestureDetector.GestureListener 
 
     private void updateObstacles(){
         if (obstacles.update(sonic.getPosition().x, (float) sonic.timeSpinDash, sonic.getCollision())) {
-            gameOver.setTimerGameOver(3);
-            gameOver.setSonicDie(true);
+            endLevel.setTimerGameOver(3);
+            endLevel.setSonicDie(true);
             scoreTable.addBesetScore(counterScore);
         }
     }
@@ -86,17 +86,17 @@ public class PlayState extends State implements GestureDetector.GestureListener 
     {
         if (rings.getRingsCount() >= rings.RINGS_FOR_END)
         {
-            gameOver.setTimerGameOver(3);
-            gameOver.setIsComplete(true);
+            endLevel.setTimerGameOver(3);
+            endLevel.setIsComplete(true);
             scoreTable.addBesetScore(counterScore);
         }
     }
     @Override
     public void update(float dt) {
         handleInput();
-        if ((gameOver.isSonicDie()) || ( gameOver.isComplete())) {
-            gameOver.setTimerGameOver(gameOver.getTimerGameOver() - dt);
-            if (gameOver.getTimerGameOver() < 0) {
+        if ((endLevel.isSonicDie()) || ( endLevel.isComplete())) {
+            endLevel.setTimerGameOver(endLevel.getTimerGameOver() - dt);
+            if (endLevel.getTimerGameOver() < 0) {
                 gsm.set(new SelectLevelState(gsm));
             }
         }
@@ -133,13 +133,13 @@ public class PlayState extends State implements GestureDetector.GestureListener 
     }
 
     private void renderLoseGame(SpriteBatch sb) {
-        gameOver.render(sb, camera.position);
+        endLevel.render(sb, camera.position);
         int temp = scoreTable.getBestScore();
         font.draw(sb, "Best score: " + temp, camera.position.x - 200, camera.position.y - 196);
         font.draw(sb, "Score: " + counterScore, camera.position.x + 100, camera.position.y - 196);
     }
     private void renderCompleted(SpriteBatch sb){
-        gameOver.render(sb, camera.position);
+        endLevel.render(sb, camera.position);
     }
 
     @Override
@@ -148,11 +148,11 @@ public class PlayState extends State implements GestureDetector.GestureListener 
 
         sb.begin();
         renderGame(sb);
-        if (gameOver.isSonicDie()){
+        if (endLevel.isSonicDie()){
             renderLoseGame(sb);
         }
         //System.out.println(Gdx.graphics.getFramesPerSecond());
-        if (gameOver.isComplete()){
+        if (endLevel.isComplete()){
             renderCompleted(sb);
         }
         sb.end();
