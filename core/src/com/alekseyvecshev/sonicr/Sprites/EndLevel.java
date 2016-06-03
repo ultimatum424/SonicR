@@ -43,7 +43,7 @@ public class EndLevel {
             sb.draw(gameOver, centre.x - 360, centre.y - 35, gameOver.getWidth(), gameOver.getHeight());
         }
         else if (isComplete){
-            sb.draw(levelComplete, centre.x - 360, centre.y - 35, levelComplete.getWidth(), levelComplete.getHeight());
+            sb.draw(levelComplete, centre.x - 150, centre.y - 70, levelComplete.getWidth(), levelComplete.getHeight());
         }
         sb.draw(progressBarMask, centre.x - 280, centre.y -  215, progressBarMask.getWidth(), progressBarMask.getHeight());
         sb.draw(progressBar,  centre.x - 280 + 3, centre.y -  215 + 5, (progressBar.getTexture().getWidth() * timerGameOver / 3) / 2, progressBar.getHeight());
@@ -69,8 +69,5 @@ public class EndLevel {
         this.sonicDie = sonicDie;
     }
 
-    public boolean isComplete() {
-
-        return isComplete;
-    }
+    public boolean isComplete() { return isComplete; }
 }

@@ -27,6 +27,12 @@ public class ArrayObstacles {
         if (prefs.getInteger("number") == 1) {
             textureAtlas = new TextureAtlas(Gdx.files.internal("gameScr\\Enemy\\obstacles.txt"));
         }
+        if (prefs.getInteger("number") == 2) {
+            textureAtlas = new TextureAtlas(Gdx.files.internal("gameScr\\Enemy\\obstacles.txt"));
+        }
+        if (prefs.getInteger("number") == 3) {
+            textureAtlas = new TextureAtlas(Gdx.files.internal("gameScr\\Enemy\\obstacles.txt"));
+        }
         sprites = textureAtlas.createSprites();
         obstacles = new Queue<Obstacle>();
         resultCollision = new Rectangle();

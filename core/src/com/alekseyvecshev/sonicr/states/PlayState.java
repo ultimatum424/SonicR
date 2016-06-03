@@ -50,7 +50,7 @@ public class PlayState extends State implements GestureDetector.GestureListener 
             bk = new Texture("gameScr\\bk1.png");
         }
         if (prefs.getInteger("number") == 2) {
-            bk = new Texture("gameScr\\bk2.png");
+            bk = new Texture("gameScr\\bk3.png");
         }
         if (prefs.getInteger("number") == 3) {
             bk = new Texture("gameScr\\bk3.png");

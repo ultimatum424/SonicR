@@ -22,7 +22,7 @@ public class ArrayRings {
     private Animation animation;
     private Rectangle resultCollision;
     private int ringsCount;
-    public final static int RINGS_FOR_END = 3;
+    public final static int RINGS_FOR_END = 15;
 
     public ArrayRings(){
         rings = new  Queue<Ring>();
@@ -42,7 +42,7 @@ public class ArrayRings {
     public void update(float dt, float sonicPosX, Rectangle sonicCollision){
         elapsedTime += dt;
         if (rings.size > 0) {
-            if ((sonicPosX) > (+SonicRGame.HEIGHT + rings.first().getPosition().x)) {
+            if ((sonicPosX - SonicRGame.HEIGHT ) > (rings.first().getPosition().x)) {
                 rings.removeFirst();
             }
         }
