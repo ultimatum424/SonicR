@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Array;
 public class SelectLevelState extends State{
     TextureAtlas textureAtlas;
     Texture bk;
+    Texture black;
     Rectangle lvl10;
     Rectangle lvl11;
     Rectangle lvl20;
@@ -25,6 +26,7 @@ public class SelectLevelState extends State{
     public SelectLevelState(GameStateManager gsm) {
         super(gsm);
         bk = new Texture("SelectLevel/bk.png");
+        black = new Texture("SelectLevel/black.png");
         lvl10 = new Rectangle(25 , 460, 305, 240);
         lvl11 = new Rectangle(25 , 160, 305, 240);
         lvl20 = new Rectangle(480 , 460, 305, 240);
@@ -37,31 +39,33 @@ public class SelectLevelState extends State{
     @Override
     protected void handleInput() {
         Preferences prefs = Gdx.app.getPreferences("Level");
+        Preferences prefs2 = Gdx.app.getPreferences("LevelOpen");
+        int numberLevel = prefs2.getInteger("level");
         if (Gdx.input.justTouched()) {
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
             System.out.println(touchPos);
-            if (lvl10.contains(touchPos.x, touchPos.y)){
+            if (lvl10.contains(touchPos.x, touchPos.y) && numberLevel >= 0){
                 prefs.putInteger("number", 1);
                 prefs.flush();
                 gsm.set(new PlayState(gsm));
             }
-            if (lvl20.contains(touchPos.x, touchPos.y)){
+            if (lvl20.contains(touchPos.x, touchPos.y) && numberLevel >= 3){
                 prefs.putInteger("number", 2);
                 prefs.flush();
                 gsm.set(new PlayState(gsm));
             }
-            if (lvl30.contains(touchPos.x, touchPos.y)){
+            if (lvl30.contains(touchPos.x, touchPos.y)&& numberLevel >= 5){
                 prefs.putInteger("number", 3);
                 prefs.flush();
                 gsm.set(new PlayState(gsm));
             }
-            if (lvl11.contains(touchPos.x, touchPos.y)) {
+            if (lvl11.contains(touchPos.x, touchPos.y)&& numberLevel >= 2) {
                 prefs.putInteger("number", 1);
                 prefs.flush();
                 gsm.set(new BossRobotState(gsm));
             }
-            if (lvl21.contains(touchPos.x, touchPos.y)) {
+            if (lvl21.contains(touchPos.x, touchPos.y)&& numberLevel >= 4) {
                 prefs.putInteger("number", 2);
                 prefs.flush();
                 gsm.set(new BossShadowState(gsm));

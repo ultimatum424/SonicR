@@ -37,7 +37,6 @@ public class EndLevel {
     }
 
     public void render(SpriteBatch sb, Vector3 centre){
-        System.out.println((levelComplete.getTexture().getWidth()));
         sb.draw(bg, centre.x - (SonicRGame.WIDTH / 2), 0);
         if (!isComplete) {
             sb.draw(gameOver, centre.x - 360, centre.y - 35, gameOver.getWidth(), gameOver.getHeight());

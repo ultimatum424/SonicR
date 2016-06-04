@@ -11,6 +11,7 @@ import com.alekseyvecshev.sonicr.Sprites.EndLevel;
 import com.alekseyvecshev.sonicr.Sprites.LevelComplete;
 import com.alekseyvecshev.sonicr.Sprites.Platform;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
@@ -107,7 +108,12 @@ public class BossRobotState extends State implements GestureDetector.GestureList
             endLevel.setTimerGameOver(endLevel.getTimerGameOver() - dt);
         }
         if (endLevel.getTimerGameOver() < 0){
-                gsm.set(new SelectLevelState(gsm));
+            Preferences prefs2 = Gdx.app.getPreferences("LevelOpen");
+            if (prefs2.getInteger("level") < 3){
+                prefs2.putInteger("level", 3);
+            }
+            prefs2.flush();
+            gsm.set(new SelectLevelState(gsm));
         }
         if (((sonic.getHp() > 0) && (robot.getHp() <= 0)) && (endLevel.getTimerGameOver() == 0)) {
             endLevel.setIsComplete(true);
@@ -117,6 +123,7 @@ public class BossRobotState extends State implements GestureDetector.GestureList
             endLevel.setTimerGameOver(endLevel.getTimerGameOver() - dt);
         }
         if (levelComplete.getTimer() < 0){
+
             gsm.set(new SelectLevelState(gsm));
         }
         camera.update();

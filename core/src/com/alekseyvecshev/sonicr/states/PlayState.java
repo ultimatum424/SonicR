@@ -91,12 +91,38 @@ public class PlayState extends State implements GestureDetector.GestureListener 
             scoreTable.addBesetScore(counterScore);
         }
     }
+    private void SetLevel(){
+        Preferences prefs = Gdx.app.getPreferences("Level");
+        Preferences prefs2 = Gdx.app.getPreferences("LevelOpen");
+        int numberLevel = prefs2.getInteger("level");
+        if (prefs.getInteger("number") == 1) {
+            if (numberLevel < 2) {
+                numberLevel = 2;
+            }
+        }
+        if (prefs.getInteger("number") == 2) {
+                if (numberLevel < 4) {
+                    numberLevel = 4;
+                }
+        }
+        if (prefs.getInteger("number") == 3) {
+                if (numberLevel < 5) {
+                    numberLevel = 5;
+                }
+        }
+            prefs2.putInteger("level", numberLevel);
+            prefs2.flush();
+
+    }
     @Override
     public void update(float dt) {
         handleInput();
         if ((endLevel.isSonicDie()) || ( endLevel.isComplete())) {
             endLevel.setTimerGameOver(endLevel.getTimerGameOver() - dt);
             if (endLevel.getTimerGameOver() < 0) {
+                if ( endLevel.isComplete()){
+                    SetLevel();
+                }
                 gsm.set(new SelectLevelState(gsm));
             }
         }

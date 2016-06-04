@@ -22,7 +22,7 @@ public class ArrayRings {
     private Animation animation;
     private Rectangle resultCollision;
     private int ringsCount;
-    public final static int RINGS_FOR_END = 15;
+    public final static int RINGS_FOR_END = 2;
 
     public ArrayRings(){
         rings = new  Queue<Ring>();
