@@ -31,7 +31,6 @@ public class BossRobotState extends State implements GestureDetector.GestureList
     ArrayBullets arrayBullets;
     Interface anInterface;
     EndLevel endLevel;
-    LevelComplete levelComplete;
     GestureDetector gestureDetector;
     Texture bk;
     FireBk fireBk;
@@ -44,7 +43,6 @@ public class BossRobotState extends State implements GestureDetector.GestureList
         resultCollision = new Rectangle();
         anInterface = new Interface(sonic.getMaxHp(), robot.getMaxHp());
         endLevel = new EndLevel();
-        levelComplete = new LevelComplete();
         fireBk = new FireBk();
 
         bk = new Texture("BossStage//BossRobot//bk.png");
@@ -83,6 +81,15 @@ public class BossRobotState extends State implements GestureDetector.GestureList
         }
     }
 
+    private void EndLevelSet(){
+        Preferences prefs2 = Gdx.app.getPreferences("LevelOpen");
+        if (prefs2.getInteger("level") < 2){
+            prefs2.putInteger("level", 2);
+        }
+        prefs2.flush();
+        gsm.set(new SelectLevelState(gsm));
+    }
+
     @Override
     public void update(float dt) {
         handleInput();
@@ -100,31 +107,9 @@ public class BossRobotState extends State implements GestureDetector.GestureList
 
         anInterface.update(dt, camera.position, sonic.getHp(), robot.getHp(), sonic.getLevelSpinDash());
 
-        if (((sonic.getHp() <= 0) && (robot.getHp() > 0)) && (endLevel.getTimerGameOver() == 0)) {
-            endLevel.setSonicDie(true);
-            endLevel.setTimerGameOver(5);
-        }
-        if (endLevel.getTimerGameOver() > 0){
-            endLevel.setTimerGameOver(endLevel.getTimerGameOver() - dt);
-        }
-        if (endLevel.getTimerGameOver() < 0){
-            Preferences prefs2 = Gdx.app.getPreferences("LevelOpen");
-            if (prefs2.getInteger("level") < 2){
-                prefs2.putInteger("level", 2);
-            }
-            prefs2.flush();
-            gsm.set(new SelectLevelState(gsm));
-        }
-        if (((sonic.getHp() > 0) && (robot.getHp() <= 0)) && (endLevel.getTimerGameOver() == 0)) {
-            endLevel.setIsComplete(true);
-            endLevel.setTimerGameOver(5);
-        }
-        if (endLevel.getTimerGameOver() > 0){
-            endLevel.setTimerGameOver(endLevel.getTimerGameOver() - dt);
-        }
-        if (levelComplete.getTimer() < 0){
-
-            gsm.set(new SelectLevelState(gsm));
+        boolean isEnd = endLevel.CheckEndLevel(dt, sonic.getHp(), robot.getHp());
+        if (isEnd){
+            EndLevelSet();
         }
         camera.update();
     }
@@ -137,12 +122,7 @@ public class BossRobotState extends State implements GestureDetector.GestureList
         sonic.render(sb);
         anInterface.render(sb);
     }
-    private void renderEndGame(SpriteBatch sb){
-       if (endLevel.isComplete() || endLevel.isSonicDie())
-       {
-           endLevel.render(sb, camera.position);
-       }
-    }
+
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();
@@ -151,7 +131,7 @@ public class BossRobotState extends State implements GestureDetector.GestureList
         arrayPlatforms.render(sb);
         renderGame(sb);
         fireBk.render(sb, camera.position);
-        renderEndGame(sb);
+        endLevel.renderEndGame(sb, camera.position);
         sb.end();
     }
 

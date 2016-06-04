@@ -2,6 +2,7 @@ package com.alekseyvecshev.sonicr.Sprites;
 
 import com.alekseyvecshev.sonicr.SonicRGame;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -34,6 +35,35 @@ public class EndLevel {
         progressBar = textureAtlas.createSprite("progressBar");
         progressBarMask = textureAtlas.createSprite("progressBarMask");
         levelComplete = textureAtlas.createSprite("complete");
+    }
+
+    public boolean CheckEndLevel(float dt, int sonicHp, int BossHp){
+        if (((sonicHp <= 0) && (BossHp > 0)) && (timerGameOver == 0)) {
+            sonicDie = true;
+            timerGameOver = 5;
+        }
+        if (timerGameOver > 0){
+            timerGameOver -= dt;
+        }
+        if (timerGameOver < 0){
+
+            return true;
+        }
+        if (((sonicHp > 0) && (BossHp <= 0)) && (timerGameOver == 0)) {
+            isComplete = true;
+            timerGameOver = 5;
+        }
+        if (timerGameOver > 0){
+            timerGameOver -= dt;
+        }
+        return false;
+    }
+
+    public void renderEndGame(SpriteBatch sb, Vector3 posCamera){
+        if (isComplete || sonicDie)
+        {
+            render(sb, posCamera);
+        }
     }
 
     public void render(SpriteBatch sb, Vector3 centre){

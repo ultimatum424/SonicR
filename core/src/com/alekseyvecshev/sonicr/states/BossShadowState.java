@@ -9,6 +9,7 @@ import com.alekseyvecshev.sonicr.Sprites.ArrayPlatforms;
 import com.alekseyvecshev.sonicr.Sprites.EndLevel;
 import com.alekseyvecshev.sonicr.Sprites.LevelComplete;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
@@ -26,7 +27,6 @@ public class BossShadowState extends State implements GestureDetector.GestureLis
     SonicHero sonic;
     BossShadow shadow;
     Interface anInterface;
-    LevelComplete levelComplete;
     EndLevel endLevel;
     GestureDetector gestureDetector;
     Texture bg;
@@ -40,7 +40,7 @@ public class BossShadowState extends State implements GestureDetector.GestureLis
         arrayRobots = new ArrayRobots();
         resultCollision = new Rectangle();
         endLevel = new EndLevel();
-        levelComplete = new LevelComplete();
+
         anInterface = new Interface(sonic.getMaxHp(), shadow.getMaxHp());
         camera.setToOrtho(false, SonicRGame.WIDTH, SonicRGame.HEIGHT);
         bg = new Texture("gameScr\\bk3.png");
@@ -83,6 +83,40 @@ public class BossShadowState extends State implements GestureDetector.GestureLis
         }
         return false;
     }
+
+    private void CheckEndLevel2(float dt){
+        if (((sonic.getHp() <= 0) && (shadow.getHp() > 0)) && (endLevel.getTimerGameOver() == 0)) {
+            endLevel.setSonicDie(true);
+            endLevel.setTimerGameOver(5);
+        }
+        if (endLevel.getTimerGameOver() > 0){
+            endLevel.setTimerGameOver(endLevel.getTimerGameOver() - dt);
+        }
+        if (endLevel.getTimerGameOver() < 0){
+            Preferences prefs2 = Gdx.app.getPreferences("LevelOpen");
+            if (prefs2.getInteger("level") < 2){
+                prefs2.putInteger("level", 2);
+            }
+            prefs2.flush();
+            gsm.set(new SelectLevelState(gsm));
+        }
+        if (((sonic.getHp() > 0) && (shadow.getHp() <= 0)) && (endLevel.getTimerGameOver() == 0)) {
+            endLevel.setIsComplete(true);
+            endLevel.setTimerGameOver(5);
+        }
+        if (endLevel.getTimerGameOver() > 0){
+            endLevel.setTimerGameOver(endLevel.getTimerGameOver() - dt);
+        }
+    }
+    private void EndLevelSet(){
+        Preferences prefs2 = Gdx.app.getPreferences("LevelOpen");
+        if (prefs2.getInteger("level") < 2){
+            prefs2.putInteger("level", 2);
+        }
+        prefs2.flush();
+        gsm.set(new SelectLevelState(gsm));
+    }
+
     @Override
     public void update(float dt) {
         handleInput();
@@ -99,9 +133,13 @@ public class BossShadowState extends State implements GestureDetector.GestureLis
         arrayRobots.updateRobot(dt, sonic.getPosition());
 
         anInterface.update(dt, camera.position, sonic.getHp(), shadow.getHp(), sonic.getLevelSpinDash());
+        boolean isEnd = endLevel.CheckEndLevel(dt, sonic.getHp(), shadow.getHp());
+        if (isEnd){
+            EndLevelSet();
+        }
         camera.update();
     }
-
+    
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();
@@ -112,6 +150,7 @@ public class BossShadowState extends State implements GestureDetector.GestureLis
         sonic.render(sb);
         arrayRobots.render(sb);
         anInterface.render(sb);
+        endLevel.renderEndGame(sb, camera.position);
         sb.end();
     }
 
