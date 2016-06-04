@@ -9,7 +9,7 @@ import java.util.Random;
  * Created by Алексей on 03.06.2016.
  */
 public class Robot {
-    private static final int SPEED = 6;
+    private static final int SPEED = 4;
     private static final int CHANGE_DT = 100;
     private float elapsedTimeDie = 0;
 

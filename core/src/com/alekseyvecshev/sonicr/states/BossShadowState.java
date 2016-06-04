@@ -53,6 +53,15 @@ public class BossShadowState extends State implements GestureDetector.GestureLis
     }
 
     private void checkCollision(){
+        if (Intersector.intersectRectangles(sonic.getCollision(), shadow.getCollision(), resultCollision)){
+            if (sonic.getTimeSpinDash() == 0){
+                sonic.setHp(sonic.getHp() - 1);
+            }
+            else{
+                shadow.setHp(shadow.getHp() - 1);
+            }
+        }
+        shadow.setIsHitRobot(false);
         for (int i = 0; i < arrayRobots.getRobots().size; i++) {
             if (Intersector.intersectRectangles(sonic.getCollision(), arrayRobots.getRobots().get(i).getCollision(), resultCollision)) {
                 if (sonic.getTimeSpinDash() == 0) {
@@ -63,6 +72,7 @@ public class BossShadowState extends State implements GestureDetector.GestureLis
             if (Intersector.intersectRectangles(shadow.getCollision(), arrayRobots.getRobots().get(i).getCollision(), resultCollision)) {
                 shadow.setHp(shadow.getHp() - 1);
                 arrayRobots.getRobots().get(i).setIsDie(true);
+                shadow.setIsHitRobot(true);
             }
         }
     }
@@ -78,7 +88,7 @@ public class BossShadowState extends State implements GestureDetector.GestureLis
         handleInput();
         sonic.update(dt);
         camera.position.x = sonic.getPosition().x + 300;
-        shadow.update(dt, camera.position, sonic.getPosition(), CheckCollision(sonic.getCollision(), shadow.getCollision()));
+        shadow.update(dt, camera.position, sonic.getPosition(), CheckCollision(sonic.getCollision(), shadow.getCollision()), true);
         checkCollision();
         arrayPlatforms.update(camera.position.x, camera.viewportWidth, dt);
 

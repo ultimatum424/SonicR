@@ -27,10 +27,10 @@ public class SelectLevelState extends State{
         bk = new Texture("SelectLevel/bk.png");
         lvl10 = new Rectangle(25 , 460, 305, 240);
         lvl11 = new Rectangle(25 , 160, 305, 240);
-        lvl20 = new Rectangle(450 , 160, 305, 240);
-        lvl21 = new Rectangle(480 , 160, 353, 287);
-        lvl30 = new Rectangle(900 , 0, 353, 287);
-        lvl31 = new Rectangle(900 , 300, 353, 287);
+        lvl20 = new Rectangle(480 , 460, 305, 240);
+        lvl21 = new Rectangle(480 , 160, 305, 240);
+        lvl30 = new Rectangle(900 , 0, 305, 240);
+        lvl31 = new Rectangle(900 , 300, 305, 240);
         camera.setToOrtho(false, SonicRGame.WIDTH, SonicRGame.HEIGHT);
     }
 

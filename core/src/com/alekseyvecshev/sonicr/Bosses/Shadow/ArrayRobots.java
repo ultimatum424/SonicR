@@ -29,8 +29,8 @@ public class ArrayRobots {
     public ArrayRobots(){
         robots = new Queue<Robot>();
         helpersTool = new HelpersTool();
-        moveTexture = new TextureAtlas(Gdx.files.internal("BossStage//BossRobot//moveBullet.txt"));
-        dieTexture = new TextureAtlas(Gdx.files.internal("BossStage//BossRobot//dieBullet.txt"));
+        moveTexture = new TextureAtlas(Gdx.files.internal("BossStage//BossShadow//moveRobot.txt"));
+        dieTexture = new TextureAtlas(Gdx.files.internal("BossStage//BossShadow//dieRobot.txt"));
         moveAnimation = new Animation(1/15f, moveTexture.getRegions());
         dieAnimation = new Animation(1/12f, dieTexture.getRegions());
     }

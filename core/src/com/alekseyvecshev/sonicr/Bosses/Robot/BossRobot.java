@@ -22,7 +22,7 @@ public class BossRobot {
     private static final int SPEED = 4;
     private static final int SPEED_BOOST = 6;
     private static final int CHANGE_DT = 70;
-    private static final int MAX_HP = 1;
+    private static final int MAX_HP = 15;
     private float elapsedTime = 0;
     private Random rand;
     private EnumState state;

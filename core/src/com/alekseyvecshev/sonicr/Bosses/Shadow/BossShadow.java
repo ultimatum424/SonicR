@@ -25,7 +25,7 @@ public class BossShadow {
 
     private EnumState state;
     //private enum EnumState{Die, Run, Attack, Teleport, SpinDash, GetDamage};
-    private enum EnumState{Run, Attack, Teleport};
+    private enum EnumState{Run, Attack, Teleport, SpinDash};
     private Array<Float> arrayElapsedTimes;
     private float timeState;
     private boolean isTeleport;
@@ -38,16 +38,21 @@ public class BossShadow {
     Animation teleportAnimation;
     TextureAtlas attackTexture;
     Animation attackAnimation;
+    TextureAtlas spinDashTexture;
+    Animation spinDashAnimation;
 
     Vector2 position;
     Rectangle collision;
     private int hp = MAX_HP;
     private Random rand;
     HelpersTool helpersTool;
+    private boolean isHitRobot = false;
+    private float timeSpinDash = 0;
+    private final static float MAX_TIME_SPINDASH = (float) 0.5;
     public BossShadow(){
 
         arrayElapsedTimes = new Array();
-        arrayElapsedTimes.addAll(elapsedTime, elapsedTime, elapsedTime);
+        arrayElapsedTimes.addAll(elapsedTime, elapsedTime, elapsedTime, elapsedTime);
         moveTexture = new TextureAtlas(Gdx.files.internal("BossStage//BossShadow//run.txt"));
         moveAnimation = new Animation(1/25f, moveTexture.getRegions());
 
@@ -57,6 +62,9 @@ public class BossShadow {
         attackTexture = new TextureAtlas(Gdx.files.internal("BossStage//BossShadow//attack.txt"));
         attackAnimation = new Animation(1/15f, attackTexture.getRegions());
 
+        spinDashTexture = new TextureAtlas(Gdx.files.internal("BossStage//BossShadow//spinDash.txt"));
+        spinDashAnimation = new Animation(1/15f, spinDashTexture.getRegions());
+
         rand = new Random();
         position = new Vector2(700, 300);
         collision = new Rectangle();
@@ -65,7 +73,17 @@ public class BossShadow {
         timeState = 0;
     }
     private void updateRun(float dt){
-        arrayElapsedTimes.set(EnumState.Run.ordinal(), arrayElapsedTimes.get(EnumState.Run.ordinal()) + dt);
+        if (isHitRobot || timeSpinDash > 0) {
+            timeSpinDash += dt;
+            state = EnumState.SpinDash;
+            arrayElapsedTimes.set(EnumState.SpinDash.ordinal(), arrayElapsedTimes.get(EnumState.SpinDash.ordinal()) + dt);
+            System.out.println(timeSpinDash);
+        }
+        if (!isHitRobot && (timeSpinDash >= MAX_TIME_SPINDASH || timeSpinDash == 0)){
+            timeSpinDash = 0;
+            state = EnumState.Run;
+            arrayElapsedTimes.set(EnumState.Run.ordinal(), arrayElapsedTimes.get(EnumState.Run.ordinal()) + dt);
+        }
     }
 
     private void updateAttack(float dt, boolean isHit) {
@@ -102,8 +120,8 @@ public class BossShadow {
             arrayElapsedTimes.set(2, (float) 0);
         }
     }
-    public void update(float dt, Vector3 posCamera, Vector2 posSonic, boolean isHit){
-        System.out.println(state);
+    public void update(float dt, Vector3 posCamera, Vector2 posSonic, boolean isHit, boolean isHitRobot){
+       // System.out.println(state);
         collision.set(helpersTool.setCollision(moveAnimation, elapsedTime, position));
         position.add(dt * CHANGE_DT * SPEED, 0);
         updateSate(dt, posSonic);
@@ -117,7 +135,7 @@ public class BossShadow {
         if (state == EnumState.Teleport){
             updateTeleport(dt, posCamera);
         }
-        if (state == EnumState.Run) {
+        if (state == EnumState.Run || state == EnumState.SpinDash) {
             updateRun(dt);
         }
 
@@ -127,11 +145,14 @@ public class BossShadow {
         if (state == EnumState.Run){
             sb.draw(moveAnimation.getKeyFrame(arrayElapsedTimes.get(EnumState.Run.ordinal()), true), position.x, position.y);
         }
-        if (state == EnumState.Teleport){
+        else if (state == EnumState.Teleport){
             sb.draw(teleportAnimation.getKeyFrame(arrayElapsedTimes.get(EnumState.Teleport.ordinal()), true), position.x, position.y);
         }
-        if (state == EnumState.Attack){
-            sb.draw(attackAnimation.getKeyFrame(arrayElapsedTimes.get(EnumState.Attack.ordinal()), true), position.x, position.y);
+        else if (state == EnumState.Attack){
+            sb.draw(spinDashAnimation.getKeyFrame(arrayElapsedTimes.get(EnumState.Attack.ordinal()), true), position.x, position.y);
+        }
+        else if (state == EnumState.SpinDash) {
+            sb.draw(attackAnimation.getKeyFrame(arrayElapsedTimes.get(EnumState.SpinDash.ordinal()), true), position.x, position.y);
         }
     }
 
@@ -149,6 +170,10 @@ public class BossShadow {
 
     public Rectangle getCollision() {
         return collision;
+    }
+
+    public void setIsHitRobot(boolean isHitRobot) {
+        this.isHitRobot = isHitRobot;
     }
 
     public void dispose(){
