@@ -83,8 +83,10 @@ public class BossRobotState extends State implements GestureDetector.GestureList
 
     private void EndLevelSet(){
         Preferences prefs2 = Gdx.app.getPreferences("LevelOpen");
-        if (prefs2.getInteger("level") < 2){
-            prefs2.putInteger("level", 2);
+        if (!endLevel.isSonicDie()) {
+            if (prefs2.getInteger("level") < 2){
+                prefs2.putInteger("level", 2);
+            }
         }
         prefs2.flush();
         gsm.set(new SelectLevelState(gsm));

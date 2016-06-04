@@ -110,11 +110,13 @@ public class BossShadowState extends State implements GestureDetector.GestureLis
     }
     private void EndLevelSet(){
         Preferences prefs2 = Gdx.app.getPreferences("LevelOpen");
-        if (prefs2.getInteger("level") < 2){
-            prefs2.putInteger("level", 2);
+        if (!endLevel.isSonicDie()) {
+            if (prefs2.getInteger("level") < 4){
+                prefs2.putInteger("level", 4);
+            }
         }
         prefs2.flush();
-        gsm.set(new SelectLevelState(gsm));
+             gsm.set(new SelectLevelState(gsm));
     }
 
     @Override
@@ -139,7 +141,7 @@ public class BossShadowState extends State implements GestureDetector.GestureLis
         }
         camera.update();
     }
-    
+
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();
@@ -150,7 +152,7 @@ public class BossShadowState extends State implements GestureDetector.GestureLis
         sonic.render(sb);
         arrayRobots.render(sb);
         anInterface.render(sb);
-        endLevel.renderEndGame(sb, camera.position);
+            endLevel.renderEndGame(sb, camera.position);
         sb.end();
     }
 

@@ -16,7 +16,6 @@ import com.badlogic.gdx.utils.Array;
  * Created by Алексей on 14.05.2016.
  */
 public class SelectLevelState extends State{
-    TextureAtlas textureAtlas;
     Texture bk;
     Texture black;
     Array<Vector2> posBlack;
@@ -39,7 +38,6 @@ public class SelectLevelState extends State{
         lvl31 = new Rectangle(930 , 160, 305, 240);
 
         posBlack = new Array<Vector2>();
-       // posBlack.addAll( new Vector2(930, 460),new Vector2(480, 160), new Vector2(480, 460), new Vector2(25, 160));
         posBlack.addAll( new Vector2(25, 160),new Vector2(480, 460), new Vector2(480, 160), new Vector2(930, 460));
         camera.setToOrtho(false, SonicRGame.WIDTH, SonicRGame.HEIGHT);
     }
@@ -49,9 +47,8 @@ public class SelectLevelState extends State{
         Preferences prefs = Gdx.app.getPreferences("Level");
         Preferences prefs2 = Gdx.app.getPreferences("LevelOpen");
         int numberLevel = prefs2.getInteger("level");
-         //prefs2.putInteger("level", 2);
-        // prefs2.flush();
-
+         //prefs2.putInteger("level", 3);
+         //prefs2.flush();
         if (Gdx.input.justTouched()) {
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
