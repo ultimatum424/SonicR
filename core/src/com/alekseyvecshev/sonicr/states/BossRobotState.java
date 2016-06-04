@@ -109,8 +109,8 @@ public class BossRobotState extends State implements GestureDetector.GestureList
         }
         if (endLevel.getTimerGameOver() < 0){
             Preferences prefs2 = Gdx.app.getPreferences("LevelOpen");
-            if (prefs2.getInteger("level") < 3){
-                prefs2.putInteger("level", 3);
+            if (prefs2.getInteger("level") < 2){
+                prefs2.putInteger("level", 2);
             }
             prefs2.flush();
             gsm.set(new SelectLevelState(gsm));

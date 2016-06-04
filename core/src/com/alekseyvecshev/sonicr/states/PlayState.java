@@ -96,13 +96,13 @@ public class PlayState extends State implements GestureDetector.GestureListener 
         Preferences prefs2 = Gdx.app.getPreferences("LevelOpen");
         int numberLevel = prefs2.getInteger("level");
         if (prefs.getInteger("number") == 1) {
-            if (numberLevel < 2) {
-                numberLevel = 2;
+            if (numberLevel < 1) {
+                numberLevel = 1;
             }
         }
         if (prefs.getInteger("number") == 2) {
-                if (numberLevel < 4) {
-                    numberLevel = 4;
+                if (numberLevel < 3) {
+                    numberLevel = 3;
                 }
         }
         if (prefs.getInteger("number") == 3) {
