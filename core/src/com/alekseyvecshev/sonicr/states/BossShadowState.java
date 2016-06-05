@@ -8,6 +8,7 @@ import com.alekseyvecshev.sonicr.SonicRGame;
 import com.alekseyvecshev.sonicr.Sprites.ArrayPlatforms;
 import com.alekseyvecshev.sonicr.Sprites.EndLevel;
 import com.alekseyvecshev.sonicr.Sprites.LevelComplete;
+import com.alekseyvecshev.sonicr.Tool.Sound;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Texture;
@@ -30,7 +31,7 @@ public class BossShadowState extends State implements GestureDetector.GestureLis
     EndLevel endLevel;
     GestureDetector gestureDetector;
     Texture bg;
-
+    Sound sound;
 
     public BossShadowState(GameStateManager gsm) {
         super(gsm);
@@ -40,7 +41,7 @@ public class BossShadowState extends State implements GestureDetector.GestureLis
         arrayRobots = new ArrayRobots();
         resultCollision = new Rectangle();
         endLevel = new EndLevel();
-
+        sound = new Sound();
         anInterface = new Interface(sonic.getMaxHp(), shadow.getMaxHp());
         camera.setToOrtho(false, SonicRGame.WIDTH, SonicRGame.HEIGHT);
         bg = new Texture("gameScr\\bk3.png");
@@ -65,12 +66,12 @@ public class BossShadowState extends State implements GestureDetector.GestureLis
         for (int i = 0; i < arrayRobots.getRobots().size; i++) {
             if (Intersector.intersectRectangles(sonic.getCollision(), arrayRobots.getRobots().get(i).getCollision(), resultCollision)) {
                 if (sonic.getTimeSpinDash() == 0) {
-                    sonic.setHp(sonic.getHp() - 1);
+                    sonic.setHp(sonic.getHp() - 3);
                     arrayRobots.getRobots().get(i).setIsDie(true);
                 }
             }
             if (Intersector.intersectRectangles(shadow.getCollision(), arrayRobots.getRobots().get(i).getCollision(), resultCollision)) {
-                shadow.setHp(shadow.getHp() - 1);
+                shadow.setHp(shadow.getHp() - 3);
                 arrayRobots.getRobots().get(i).setIsDie(true);
                 shadow.setIsHitRobot(true);
             }
@@ -92,12 +93,14 @@ public class BossShadowState extends State implements GestureDetector.GestureLis
             }
         }
         prefs2.flush();
-             gsm.set(new SelectLevelState(gsm));
+        gsm.set(new SelectLevelState(gsm));
+        sound.StopShadowOst();
     }
 
     @Override
     public void update(float dt) {
         handleInput();
+        sound.PlayShadowOst();
         sonic.update(dt);
         camera.position.x = sonic.getPosition().x + 300;
         shadow.update(dt, camera.position, sonic.getPosition(), CheckCollision(sonic.getCollision(), shadow.getCollision()), true);

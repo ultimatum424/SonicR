@@ -86,8 +86,7 @@ public class BossChaos {
             posAttack = new Vector2(0, 0);
             if (state == EnumState.Stay){
                 if (rand.nextBoolean()){
-                    //state = EnumState.Attack;
-                    state = EnumState.Attack;
+                    state = EnumState.Bullet;
                 }
                 else {
 

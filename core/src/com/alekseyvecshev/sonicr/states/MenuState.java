@@ -3,6 +3,7 @@ package com.alekseyvecshev.sonicr.states;
 import com.alekseyvecshev.sonicr.SonicRGame;
 import com.alekseyvecshev.sonicr.Sprites.Obstacle;
 import com.alekseyvecshev.sonicr.Tool.ScoreTable;
+import com.alekseyvecshev.sonicr.Tool.Sound;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -25,6 +26,7 @@ public class MenuState extends State {
     private Sprite startPress;
     private Rectangle playBtnCollision;
     private boolean isPress;
+    private Sound sound;
 
 
     public MenuState(GameStateManager gsm) {
@@ -36,6 +38,7 @@ public class MenuState extends State {
         startIn = new Sprite(startBt.createSprite("start"));
         startPress = new Sprite(startBt.createSprite("startPress"));
         playBtnCollision = new Rectangle();
+        sound = new Sound();
         camera.setToOrtho(false, SonicRGame.WIDTH, SonicRGame.HEIGHT);
     }
 
@@ -43,6 +46,7 @@ public class MenuState extends State {
     @Override
     protected void handleInput() {
         isPress = false;
+        sound.PlayMenuOst();
         if (Gdx.input.isTouched()){
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
@@ -54,6 +58,7 @@ public class MenuState extends State {
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
             if (playBtnCollision.contains(touchPos.x, touchPos.y)) {
+                sound.StopMenuOst();
                 gsm.set(new SelectLevelState(gsm));
             }
         }

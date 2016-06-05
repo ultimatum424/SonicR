@@ -9,6 +9,7 @@ import com.alekseyvecshev.sonicr.Heroes.Sonic;
 import com.alekseyvecshev.sonicr.SonicRGame;
 import com.alekseyvecshev.sonicr.Sprites.ArrayPlatforms;
 import com.alekseyvecshev.sonicr.Sprites.EndLevel;
+import com.alekseyvecshev.sonicr.Tool.Sound;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -31,6 +32,7 @@ public class BossChaosState extends State implements GestureDetector.GestureList
     ArrayBullet arrayBullet;
     Tails tails;
     Texture bg;
+    Sound sound;
 
     public BossChaosState(GameStateManager gsm) {
         super(gsm);
@@ -44,6 +46,7 @@ public class BossChaosState extends State implements GestureDetector.GestureList
         arrayBullet = new ArrayBullet();
         endLevel = new EndLevel();
         anInterface = new Interface(sonic.getMaxHp(), chaos.getMaxHp());
+        sound = new Sound();
 
 
         camera.setToOrtho(false, SonicRGame.WIDTH, SonicRGame.HEIGHT);
@@ -61,7 +64,7 @@ public class BossChaosState extends State implements GestureDetector.GestureList
         for (int i = 0; i < arrayBullet.getBullets().size; i++) {
             if (Intersector.intersectRectangles(sonic.getCollision(), arrayBullet.getBullets().get(i).getCollision(), resultCollision)) {
                 if (sonic.getTimeSpinDash() == 0) {
-                    sonic.setHp(sonic.getHp() - 1);
+                    sonic.setHp(sonic.getHp() - 4);
                     arrayBullet.getBullets().get(i).setIsDie(true);
                 }
             }
@@ -83,11 +86,13 @@ public class BossChaosState extends State implements GestureDetector.GestureList
 
     private void EndLevelSet(){
         gsm.set(new SelectLevelState(gsm));
+        sound.StopChaosOst();
     }
 
     @Override
     public void update(float dt) {
         handleInput();
+        sound.PlayChaosOst();
         camera.position.x = sonic.getPosition().x + 300;
         sonic.update(dt);
         chaos.update(dt, camera.position);

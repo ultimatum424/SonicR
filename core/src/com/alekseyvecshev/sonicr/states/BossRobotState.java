@@ -10,6 +10,7 @@ import com.alekseyvecshev.sonicr.Sprites.ArrayPlatforms;
 import com.alekseyvecshev.sonicr.Sprites.EndLevel;
 import com.alekseyvecshev.sonicr.Sprites.LevelComplete;
 import com.alekseyvecshev.sonicr.Sprites.Platform;
+import com.alekseyvecshev.sonicr.Tool.Sound;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Texture;
@@ -34,6 +35,7 @@ public class BossRobotState extends State implements GestureDetector.GestureList
     GestureDetector gestureDetector;
     Texture bk;
     FireBk fireBk;
+    Sound sound;
 
     public BossRobotState(GameStateManager gsm) {
         super(gsm);
@@ -44,6 +46,7 @@ public class BossRobotState extends State implements GestureDetector.GestureList
         anInterface = new Interface(sonic.getMaxHp(), robot.getMaxHp());
         endLevel = new EndLevel();
         fireBk = new FireBk();
+        sound = new Sound();
 
         bk = new Texture("BossStage//BossRobot//bk.png");
         arrayPlatforms = new ArrayPlatforms();
@@ -63,7 +66,7 @@ public class BossRobotState extends State implements GestureDetector.GestureList
         for (int i = 0; i < arrayBullets.getBullets().size; i++) {
             if (Intersector.intersectRectangles(sonic.getCollision(), arrayBullets.getBullets().get(i).getCollision(), resultCollision)) {
                 if (sonic.getTimeSpinDash() == 0){
-                    sonic.setHp(sonic.getHp() - 1);
+                    sonic.setHp(sonic.getHp() - 3);
                     arrayBullets.getBullets().get(i).setIsDie(true);
                 }
                 else {
@@ -90,11 +93,13 @@ public class BossRobotState extends State implements GestureDetector.GestureList
         }
         prefs2.flush();
         gsm.set(new SelectLevelState(gsm));
+        sound.StopFireOst();
     }
 
     @Override
     public void update(float dt) {
         handleInput();
+        sound.PlayFireOst();
         sonic.update(dt);
         camera.position.x = sonic.getPosition().x + 300;
         arrayPlatforms.update(camera.position.x, camera.viewportWidth, dt);
