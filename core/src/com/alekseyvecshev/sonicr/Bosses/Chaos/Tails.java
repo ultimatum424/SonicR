@@ -15,6 +15,7 @@ public class Tails {
 
     private static final int SPEED = 7;
     private static final int CHANGE_DT = 100;
+    private static final float MAX_STATE_TIME = 15;
 
     TextureAtlas move;
     Animation moveAnimation;
@@ -24,7 +25,9 @@ public class Tails {
 
     boolean isFly;
     boolean isAttack;
+    boolean isDamage;
     float elapsedTimes = 0;
+    float elapsedTimesAttack = 0;
     float timeState = 0;
 
     Vector2 position;
@@ -36,42 +39,74 @@ public class Tails {
     public Tails(){
 
         position = new Vector2();
+        posAttack = new Vector2();
         isFly = true;
         isAttack = false;
+        isDamage = false;
         move = new TextureAtlas(Gdx.files.internal("BossStage//BossChaos//moveTails.txt"));
         moveAnimation = new Animation(1/8f, move.getRegions());
         state = EnumState.Stay;
 
-        attack = new TextureAtlas(Gdx.files.internal("BossStage//BossChaos//attackAnimation.txt"));
-        attackAnimation = new Animation(1/15f, attack.getRegions());
+        attack = new TextureAtlas(Gdx.files.internal("BossStage//BossChaos//attackTails.txt"));
+        attackAnimation = new Animation(1/6f, attack.getRegions());
 
     }
 
-
     private void FlySet(Vector3 posCamera){
-        System.out.println(isFly);
+        //System.out.println(state);
         if (isFly){
             isFly = false;
             state = EnumState.Fly;
             position.set(posCamera.x -SonicRGame.WIDTH, 550);
 
         }
+        if (position.x > posCamera.x + SonicRGame.WIDTH){
+            state = EnumState.Stay;
+            timeState = 0;
+        }
     }
-    public void update(float dt, Vector3 posCamera){
+    private void AttackSet( Vector2 posChaos){
+        isAttack = false;
+        elapsedTimesAttack = 0;
+        state = EnumState.Attack;
+        posAttack.x = position.x + 50;
+        posAttack.y = posChaos.y + 30;
+        state = EnumState.Attack;
+        if (posAttack.x + 100 >= posChaos.x &&  posAttack.x - 100 <= posChaos.x){
+            System.out.println("!!!!!!!!!!!!!!!!!!");
+            isDamage = true;
+        }
+    }
+
+    private void AttackUpdate(){
+        if (attackAnimation.isAnimationFinished(elapsedTimesAttack)){
+            posAttack = new Vector2(0 , 0);
+        }
+    }
+    public void update(float dt, Vector3 posCamera, Vector2 posChaos){
         elapsedTimes += dt;
+        elapsedTimesAttack += dt;
+        timeState += dt;
         FlySet(posCamera);
-        if (state == EnumState.Fly){
+        if (isAttack){
+            AttackSet(posChaos);
+        }
+        AttackUpdate();
+        if (state == EnumState.Fly || state == EnumState.Attack){
             position.add(SPEED * CHANGE_DT * dt, 0);
         }
-        System.out.println(position);
+        if (timeState > MAX_STATE_TIME && state == EnumState.Stay){
+            state = EnumState.Fly;
+        }
+        //System.out.println(position);
     }
 
     public void render(SpriteBatch sb){
-        if (state == EnumState.Fly){
+        if (state == EnumState.Fly || state == EnumState.Attack){
             sb.draw(moveAnimation.getKeyFrame(elapsedTimes, true),position.x, position.y);
         }
-        if (isAttack){
-            sb.draw(attackAnimation.getKeyFrame(elapsedTimes, false),posAttack.x, posAttack.y);
+        if (state == EnumState.Attack) {
+            sb.draw(attackAnimation.getKeyFrame(elapsedTimesAttack, false), posAttack.x, posAttack.y);
         }
     }
 
@@ -93,5 +128,13 @@ public class Tails {
 
     public void setPosition(Vector2 position) {
         this.position = position;
+    }
+
+    public boolean isDamage() {
+        return isDamage;
+    }
+
+    public void setIsDamage(boolean isDamage) {
+        this.isDamage = isDamage;
     }
 }

@@ -13,6 +13,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -56,6 +57,34 @@ public class BossChaosState extends State implements GestureDetector.GestureList
 
     }
 
+    private void CheckCollision() {
+        for (int i = 0; i < arrayBullet.getBullets().size; i++) {
+            if (Intersector.intersectRectangles(sonic.getCollision(), arrayBullet.getBullets().get(i).getCollision(), resultCollision)) {
+                if (sonic.getTimeSpinDash() == 0) {
+                    sonic.setHp(sonic.getHp() - 1);
+                    arrayBullet.getBullets().get(i).setIsDie(true);
+                }
+            }
+        }
+        System.out.print(chaos.getPosAttack().y + 40);
+        System.out.print("--");
+        System.out.print(sonic.getPosition().y);
+        System.out.println();
+
+        System.out.print(chaos.getNumberAttackPlatform());
+        System.out.print("--");
+        System.out.print(sonic.getNumberPlatform());
+        System.out.println();
+        if ((chaos.getPosAttack().y + 40 == sonic.getPosition().y) && chaos.isAttackSetDamage()){
+            sonic.setHp(sonic.getHp() - 1);
+            chaos.setIsAttackSetDamage(false);
+        }
+    }
+
+    private void EndLevelSet(){
+        gsm.set(new SelectLevelState(gsm));
+    }
+
     @Override
     public void update(float dt) {
         handleInput();
@@ -63,7 +92,12 @@ public class BossChaosState extends State implements GestureDetector.GestureList
         sonic.update(dt);
         chaos.update(dt, camera.position);
         //------
-        tails.update(dt, camera.position);
+        CheckCollision();
+        tails.update(dt, camera.position, chaos.getPosition());
+        if (tails.isDamage()){
+            tails.setIsDamage(false);
+            chaos.setHp(chaos.getHp() - 10);
+        }
 
         //----------
         arrayPlatforms.update(camera.position.x, camera.viewportWidth, dt);
@@ -73,6 +107,10 @@ public class BossChaosState extends State implements GestureDetector.GestureList
         }
         arrayBullet.updateBullet(dt, sonic.getPosition());
         anInterface.update(dt, camera.position, sonic.getHp(), chaos.getHp(), sonic.getLevelSpinDash());
+        boolean isEnd = endLevel.CheckEndLevel(dt, sonic.getHp(), chaos.getHp());
+        if (isEnd){
+            EndLevelSet();
+        }
         camera.update();
     }
 
@@ -89,6 +127,7 @@ public class BossChaosState extends State implements GestureDetector.GestureList
         }
         tails.render(sb);
         anInterface.render(sb);
+        endLevel.renderEndGame(sb, camera.position);
         sb.end();
     }
 
@@ -112,7 +151,9 @@ public class BossChaosState extends State implements GestureDetector.GestureList
 
     @Override
     public boolean longPress(float x, float y) {
-        return false;
+        tails.setIsAttack(true);
+        //chaos.setIsDie(true);
+        return true;
     }
 
     @Override
@@ -138,6 +179,7 @@ public class BossChaosState extends State implements GestureDetector.GestureList
 
     @Override
     public boolean zoom(float initialDistance, float distance) {
+
         return false;
     }
 

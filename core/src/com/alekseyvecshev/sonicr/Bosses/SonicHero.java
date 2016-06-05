@@ -70,6 +70,19 @@ public class SonicHero {
         return MAX_HP;
     }
 
+    public int getNumberPlatform(){
+        if (position.x == 480) {
+            return 3;
+        }
+        if (position.x == 300) {
+            return 2;
+        }
+        if (position.x == 120) {
+            return 1;
+        }
+        else return 0;
+    }
+
     public void setPositionPlatform(int positionPlatform) {
         this.positionPlatform = positionPlatform;
     }

@@ -72,22 +72,25 @@ public class BossChaos {
     }
 
     private void ChangeState(){
+        if (isDie){
+            state = EnumState.Die;
+            elapsedTimes = 0;
+            timeState = 0;
+        }
+        else  if (isReborn){
+            state= EnumState.Reborn;
+            elapsedTimes = 0;
+            timeState = 0;
+        }
         if (timeState >= MAX_TIME_STATE){
-            if (isDie){
-                state = EnumState.Die;
-                elapsedTimes = 0;
-                timeState = 0;
-            }
-            else  if (isReborn){
-                state= EnumState.Reborn;
-                elapsedTimes = 0;
-                timeState = 0;
-            }
-            else if (state == EnumState.Stay){
+            posAttack = new Vector2(0, 0);
+            if (state == EnumState.Stay){
                 if (rand.nextBoolean()){
-                    state = EnumState.Bullet;
+                    //state = EnumState.Attack;
+                    state = EnumState.Attack;
                 }
                 else {
+
                     state = EnumState.Attack;
                 }
                 elapsedTimes = 0;
@@ -114,14 +117,15 @@ public class BossChaos {
             System.out.println(rand.nextInt(3));
         }
 
-        else if (attackAnimation.getKeyFrameIndex(elapsedTimes) > 10 && attackAnimation.getKeyFrameIndex(elapsedTimes) < 20){
+        else if (attackAnimation.getKeyFrameIndex(elapsedTimes) > 20 && attackAnimation.getKeyFrameIndex(elapsedTimes) < 35){
             isAttackSetDamage = true;
         }
     }
 
     private void DieUpdate(){
         if (dieAnimation.isAnimationFinished(elapsedTimes)){
-            timeState = MAX_TIME_STATE;
+            timeState = 0;
+            state = EnumState.Reborn;
         }
     }
 
@@ -134,8 +138,8 @@ public class BossChaos {
     public void update(float dt, Vector3 posCamera){
         elapsedTimes += dt;
         timeState += dt;
-        position.set(posCamera.x, posCamera.y);
-        //System.out.print(state);
+        position.set(posCamera.x + 400, posCamera.y - 100);
+        //System.out.println(state);
        // System.out.print(" - ");
        // System.out.print(timeState);
        // System.out.println();
@@ -150,6 +154,8 @@ public class BossChaos {
             RebornUpdate();
         }
     }
+
+
 
     private void AttackRender(SpriteBatch sb, Vector3 posCamera){
         for (int i = 0; i < 8; i++){
@@ -184,6 +190,10 @@ public class BossChaos {
         return MAX_HP;
     }
 
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
     public boolean isStateBullet(){
         if (state == EnumState.Bullet){
             return true;
@@ -191,7 +201,37 @@ public class BossChaos {
         return false;
     }
 
+    public Vector2 getPosAttack() {
+        return posAttack;
+    }
+
+    public int getNumberAttackPlatform(){
+        if (posAttack.y == 80){
+            return 1;
+        }
+        if (posAttack.y == 260){
+            return 2;
+        }
+        if (posAttack.y == 440){
+            return 3;
+        }
+        return 0;
+    }
+
     public boolean isAttackSetDamage() {
         return isAttackSetDamage;
     }
+
+    public void setIsAttackSetDamage(boolean isAttackSetDamage) {
+        this.isAttackSetDamage = isAttackSetDamage;
+    }
+
+    public void setIsDie(boolean isDie) {
+        this.isDie = isDie;
+    }
+
+    public void setIsReborn(boolean isReborn) {
+        this.isReborn = isReborn;
+    }
 }
+

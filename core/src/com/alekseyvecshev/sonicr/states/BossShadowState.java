@@ -84,30 +84,6 @@ public class BossShadowState extends State implements GestureDetector.GestureLis
         return false;
     }
 
-    private void CheckEndLevel2(float dt){
-        if (((sonic.getHp() <= 0) && (shadow.getHp() > 0)) && (endLevel.getTimerGameOver() == 0)) {
-            endLevel.setSonicDie(true);
-            endLevel.setTimerGameOver(5);
-        }
-        if (endLevel.getTimerGameOver() > 0){
-            endLevel.setTimerGameOver(endLevel.getTimerGameOver() - dt);
-        }
-        if (endLevel.getTimerGameOver() < 0){
-            Preferences prefs2 = Gdx.app.getPreferences("LevelOpen");
-            if (prefs2.getInteger("level") < 2){
-                prefs2.putInteger("level", 2);
-            }
-            prefs2.flush();
-            gsm.set(new SelectLevelState(gsm));
-        }
-        if (((sonic.getHp() > 0) && (shadow.getHp() <= 0)) && (endLevel.getTimerGameOver() == 0)) {
-            endLevel.setIsComplete(true);
-            endLevel.setTimerGameOver(5);
-        }
-        if (endLevel.getTimerGameOver() > 0){
-            endLevel.setTimerGameOver(endLevel.getTimerGameOver() - dt);
-        }
-    }
     private void EndLevelSet(){
         Preferences prefs2 = Gdx.app.getPreferences("LevelOpen");
         if (!endLevel.isSonicDie()) {
@@ -152,7 +128,7 @@ public class BossShadowState extends State implements GestureDetector.GestureLis
         sonic.render(sb);
         arrayRobots.render(sb);
         anInterface.render(sb);
-            endLevel.renderEndGame(sb, camera.position);
+        endLevel.renderEndGame(sb, camera.position);
         sb.end();
     }
 
