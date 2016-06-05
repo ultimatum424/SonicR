@@ -2,6 +2,7 @@ package com.alekseyvecshev.sonicr.states;
 
 import com.alekseyvecshev.sonicr.Bosses.Chaos.ArrayBullet;
 import com.alekseyvecshev.sonicr.Bosses.Chaos.BossChaos;
+import com.alekseyvecshev.sonicr.Bosses.Chaos.Tails;
 import com.alekseyvecshev.sonicr.Bosses.Interface;
 import com.alekseyvecshev.sonicr.Bosses.SonicHero;
 import com.alekseyvecshev.sonicr.Heroes.Sonic;
@@ -27,12 +28,14 @@ public class BossChaosState extends State implements GestureDetector.GestureList
     Rectangle resultCollision;
     ArrayPlatforms arrayPlatforms;
     ArrayBullet arrayBullet;
+    Tails tails;
     Texture bg;
 
     public BossChaosState(GameStateManager gsm) {
         super(gsm);
         bg = new Texture("BossStage//BossChaos//bg.png");
         sonic = new SonicHero(200, 120);
+        tails = new Tails();
         GestureDetector gestureDetector;
         chaos = new BossChaos();
         arrayPlatforms = new ArrayPlatforms();
@@ -59,6 +62,10 @@ public class BossChaosState extends State implements GestureDetector.GestureList
         camera.position.x = sonic.getPosition().x + 300;
         sonic.update(dt);
         chaos.update(dt, camera.position);
+        //------
+        tails.update(dt, camera.position);
+
+        //----------
         arrayPlatforms.update(camera.position.x, camera.viewportWidth, dt);
 
         if (chaos.isStateBullet() && arrayBullet.getSizeArrayBullets() == 0){
@@ -80,7 +87,7 @@ public class BossChaosState extends State implements GestureDetector.GestureList
         if (chaos.isStateBullet() || arrayBullet.getSizeArrayBullets() != 0){
             arrayBullet.render(sb);
         }
-
+        tails.render(sb);
         anInterface.render(sb);
         sb.end();
     }
