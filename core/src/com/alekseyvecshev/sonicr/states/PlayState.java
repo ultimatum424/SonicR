@@ -7,6 +7,7 @@ import com.alekseyvecshev.sonicr.Sprites.ArrayRings;
 import com.alekseyvecshev.sonicr.Sprites.EndLevel;
 import com.alekseyvecshev.sonicr.Sprites.Sonic;
 import com.alekseyvecshev.sonicr.Tool.ScoreTable;
+import com.alekseyvecshev.sonicr.Tool.Sound;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Texture;
@@ -37,6 +38,7 @@ public class PlayState extends State implements GestureDetector.GestureListener 
     private Rectangle resultCollision;
     private BitmapFont font;
     private Random rand;
+    private Sound sound;
 
     GestureDetector gestureDetector;
 
@@ -66,7 +68,7 @@ public class PlayState extends State implements GestureDetector.GestureListener 
         obstacles = new ArrayObstacles();
         rings = new ArrayRings();
         resultCollision = new Rectangle();
-
+        sound = new Sound();
         gestureDetector = new GestureDetector(this);
         Gdx.input.setInputProcessor(gestureDetector);
     }
@@ -116,6 +118,7 @@ public class PlayState extends State implements GestureDetector.GestureListener 
     }
     @Override
     public void update(float dt) {
+        sound.StartPlay();
         handleInput();
         if ((endLevel.isSonicDie()) || ( endLevel.isComplete())) {
             endLevel.setTimerGameOver(endLevel.getTimerGameOver() - dt);
@@ -124,6 +127,7 @@ public class PlayState extends State implements GestureDetector.GestureListener 
                     SetLevel();
                 }
                 gsm.set(new SelectLevelState(gsm));
+                sound.StopPlay();
             }
         }
         else {
