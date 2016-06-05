@@ -14,7 +14,7 @@ import com.badlogic.gdx.utils.Queue;
  */
 public class ArrayBullet {
     Queue<Bullet> bullets;
-    private static final int BULLET_QUANTITY = 30;
+    private static final int BULLET_QUANTITY = 15;
     private TextureAtlas moveTexture;
     private TextureAtlas dieTexture;
     private Animation moveAnimation;

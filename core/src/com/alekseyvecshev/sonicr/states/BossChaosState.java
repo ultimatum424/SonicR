@@ -61,6 +61,10 @@ public class BossChaosState extends State implements GestureDetector.GestureList
         chaos.update(dt, camera.position);
         arrayPlatforms.update(camera.position.x, camera.viewportWidth, dt);
 
+        if (chaos.isStateBullet() && arrayBullet.getSizeArrayBullets() == 0){
+            arrayBullet.createBullet(sonic.getPosition());
+        }
+        arrayBullet.updateBullet(dt, sonic.getPosition());
         anInterface.update(dt, camera.position, sonic.getHp(), chaos.getHp(), sonic.getLevelSpinDash());
         camera.update();
     }
@@ -73,6 +77,9 @@ public class BossChaosState extends State implements GestureDetector.GestureList
         arrayPlatforms.render(sb);
         chaos.render(sb, camera.position);
         sonic.render(sb);
+        if (chaos.isStateBullet() || arrayBullet.getSizeArrayBullets() != 0){
+            arrayBullet.render(sb);
+        }
 
         anInterface.render(sb);
         sb.end();
