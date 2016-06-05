@@ -66,7 +66,7 @@ public class SelectLevelState extends State{
             if (lvl30.contains(touchPos.x, touchPos.y)&& numberLevel >= 4) {
                 prefs.putInteger("number", 3);
                prefs.flush();
-                gsm.set(new PlayState(gsm));
+                gsm.set(new BossChaosState(gsm));
             }
             if (lvl11.contains(touchPos.x, touchPos.y)&& numberLevel >= 1) {
                 prefs.putInteger("number", 1);
