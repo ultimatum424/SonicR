@@ -1,6 +1,7 @@
 package com.alekseyvecshev.sonicr.Sprites;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -37,6 +38,7 @@ public class Sonic {
     private Texture sonic;
     private Rectangle collision;
 
+
     public Rectangle getCollision() {
         return collision;
     }
@@ -45,7 +47,6 @@ public class Sonic {
         position = new Vector3(x, y, 0);
         sonic = new Texture("gameScr\\Sonic\\sonicX2.png");
         collision = new Rectangle();
-
         textureAtlas = new TextureAtlas(Gdx.files.internal("gameScr\\Sonic\\runSonic.txt" ));
         animation = new Animation(1/15f, textureAtlas.getRegions());
 

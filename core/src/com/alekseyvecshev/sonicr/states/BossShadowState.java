@@ -7,10 +7,10 @@ import com.alekseyvecshev.sonicr.Bosses.SonicHero;
 import com.alekseyvecshev.sonicr.SonicRGame;
 import com.alekseyvecshev.sonicr.Sprites.ArrayPlatforms;
 import com.alekseyvecshev.sonicr.Sprites.EndLevel;
-import com.alekseyvecshev.sonicr.Sprites.LevelComplete;
-import com.alekseyvecshev.sonicr.Tool.Sound;
+import com.alekseyvecshev.sonicr.Tool.SoundMusic;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
@@ -31,17 +31,21 @@ public class BossShadowState extends State implements GestureDetector.GestureLis
     EndLevel endLevel;
     GestureDetector gestureDetector;
     Texture bg;
-    Sound sound;
+    SoundMusic soundMusic;
+    private Sound spinDashSound;
+    private Sound boomSound;
 
     public BossShadowState(GameStateManager gsm) {
         super(gsm);
         sonic = new SonicHero(200, 120);
         shadow = new BossShadow();
+        spinDashSound =  Gdx.audio.newSound(Gdx.files.internal("Sound\\Music\\effects\\spindash.wav"));
+        boomSound = Gdx.audio.newSound(Gdx.files.internal("Sound\\Music\\effects\\boom.wav"));
         arrayPlatforms = new ArrayPlatforms();
         arrayRobots = new ArrayRobots();
         resultCollision = new Rectangle();
         endLevel = new EndLevel();
-        sound = new Sound();
+        soundMusic = new SoundMusic();
         anInterface = new Interface(sonic.getMaxHp(), shadow.getMaxHp());
         camera.setToOrtho(false, SonicRGame.WIDTH, SonicRGame.HEIGHT);
         bg = new Texture("gameScr\\bk3.png");
@@ -68,12 +72,14 @@ public class BossShadowState extends State implements GestureDetector.GestureLis
                 if (sonic.getTimeSpinDash() == 0) {
                     sonic.setHp(sonic.getHp() - 3);
                     arrayRobots.getRobots().get(i).setIsDie(true);
+                    boomSound.play();
                 }
             }
             if (Intersector.intersectRectangles(shadow.getCollision(), arrayRobots.getRobots().get(i).getCollision(), resultCollision)) {
                 shadow.setHp(shadow.getHp() - 3);
                 arrayRobots.getRobots().get(i).setIsDie(true);
                 shadow.setIsHitRobot(true);
+                boomSound.play();
             }
         }
     }
@@ -94,13 +100,13 @@ public class BossShadowState extends State implements GestureDetector.GestureLis
         }
         prefs2.flush();
         gsm.set(new SelectLevelState(gsm));
-        sound.StopShadowOst();
+        soundMusic.StopShadowOst();
     }
 
     @Override
     public void update(float dt) {
         handleInput();
-        sound.PlayShadowOst();
+        soundMusic.PlayShadowOst();
         sonic.update(dt);
         camera.position.x = sonic.getPosition().x + 300;
         shadow.update(dt, camera.position, sonic.getPosition(), CheckCollision(sonic.getCollision(), shadow.getCollision()), true);
@@ -148,6 +154,7 @@ public class BossShadowState extends State implements GestureDetector.GestureLis
     public boolean tap(float x, float y, int count, int button) {
         if (sonic.getLevelSpinDash() >= sonic.getMaxLevelSpindash()) {
             sonic.setTimeSpinDash(0.75);
+            spinDashSound.play();
         }
         return true;
     }

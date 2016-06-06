@@ -2,6 +2,7 @@ package com.alekseyvecshev.sonicr.Bosses.Chaos;
 
 import com.alekseyvecshev.sonicr.SonicRGame;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -36,6 +37,8 @@ public class Tails {
     private enum EnumState{Stay, Fly, Attack};
     private EnumState state;
 
+    private Sound flySound;
+
     public Tails(){
 
         position = new Vector2();
@@ -46,19 +49,18 @@ public class Tails {
         move = new TextureAtlas(Gdx.files.internal("BossStage//BossChaos//moveTails.txt"));
         moveAnimation = new Animation(1/8f, move.getRegions());
         state = EnumState.Stay;
-
+        flySound = Gdx.audio.newSound(Gdx.files.internal("Sound\\Music\\effects\\Chaos\\fly.wav"));
         attack = new TextureAtlas(Gdx.files.internal("BossStage//BossChaos//attackTails.txt"));
         attackAnimation = new Animation(1/6f, attack.getRegions());
 
     }
 
     private void FlySet(Vector3 posCamera){
-        //System.out.println(state);
         if (isFly){
             isFly = false;
             state = EnumState.Fly;
             position.set(posCamera.x -SonicRGame.WIDTH, 550);
-
+            flySound.play();
         }
         if (position.x > posCamera.x + SonicRGame.WIDTH){
             state = EnumState.Stay;
@@ -73,7 +75,6 @@ public class Tails {
         posAttack.y = posChaos.y + 30;
         state = EnumState.Attack;
         if (posAttack.x + 100 >= posChaos.x &&  posAttack.x - 100 <= posChaos.x){
-            System.out.println("!!!!!!!!!!!!!!!!!!");
             isDamage = true;
         }
     }
@@ -98,7 +99,6 @@ public class Tails {
         if (timeState > MAX_STATE_TIME && state == EnumState.Stay){
             state = EnumState.Fly;
         }
-        //System.out.println(position);
     }
 
     public void render(SpriteBatch sb){

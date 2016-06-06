@@ -1,9 +1,7 @@
 package com.alekseyvecshev.sonicr.states;
 
 import com.alekseyvecshev.sonicr.SonicRGame;
-import com.alekseyvecshev.sonicr.Sprites.Obstacle;
-import com.alekseyvecshev.sonicr.Tool.ScoreTable;
-import com.alekseyvecshev.sonicr.Tool.Sound;
+import com.alekseyvecshev.sonicr.Tool.SoundMusic;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -11,8 +9,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-
-import java.util.Random;
 
 /**
  * Created by Алексей on 11.04.2016.
@@ -26,7 +22,7 @@ public class MenuState extends State {
     private Sprite startPress;
     private Rectangle playBtnCollision;
     private boolean isPress;
-    private Sound sound;
+    private SoundMusic soundMusic;
 
 
     public MenuState(GameStateManager gsm) {
@@ -38,7 +34,7 @@ public class MenuState extends State {
         startIn = new Sprite(startBt.createSprite("start"));
         startPress = new Sprite(startBt.createSprite("startPress"));
         playBtnCollision = new Rectangle();
-        sound = new Sound();
+        soundMusic = new SoundMusic();
         camera.setToOrtho(false, SonicRGame.WIDTH, SonicRGame.HEIGHT);
     }
 
@@ -46,7 +42,7 @@ public class MenuState extends State {
     @Override
     protected void handleInput() {
         isPress = false;
-        sound.PlayMenuOst();
+        soundMusic.PlayMenuOst();
         if (Gdx.input.isTouched()){
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
@@ -58,7 +54,7 @@ public class MenuState extends State {
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
             if (playBtnCollision.contains(touchPos.x, touchPos.y)) {
-                sound.StopMenuOst();
+                soundMusic.StopMenuOst();
                 gsm.set(new SelectLevelState(gsm));
             }
         }

@@ -5,12 +5,12 @@ import com.alekseyvecshev.sonicr.Bosses.Chaos.BossChaos;
 import com.alekseyvecshev.sonicr.Bosses.Chaos.Tails;
 import com.alekseyvecshev.sonicr.Bosses.Interface;
 import com.alekseyvecshev.sonicr.Bosses.SonicHero;
-import com.alekseyvecshev.sonicr.Heroes.Sonic;
 import com.alekseyvecshev.sonicr.SonicRGame;
 import com.alekseyvecshev.sonicr.Sprites.ArrayPlatforms;
 import com.alekseyvecshev.sonicr.Sprites.EndLevel;
-import com.alekseyvecshev.sonicr.Tool.Sound;
+import com.alekseyvecshev.sonicr.Tool.SoundMusic;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
@@ -32,11 +32,17 @@ public class BossChaosState extends State implements GestureDetector.GestureList
     ArrayBullet arrayBullet;
     Tails tails;
     Texture bg;
-    Sound sound;
+    SoundMusic soundMusic;
+    private Sound spinDashSound;
+    private Sound bulletSound;
+    private Sound boomSound;
 
     public BossChaosState(GameStateManager gsm) {
         super(gsm);
         bg = new Texture("BossStage//BossChaos//bg.png");
+        spinDashSound =  Gdx.audio.newSound(Gdx.files.internal("Sound\\Music\\effects\\spindash.wav"));
+        bulletSound = Gdx.audio.newSound(Gdx.files.internal("Sound\\Music\\effects\\Chaos\\bullet.wav"));
+        boomSound = Gdx.audio.newSound(Gdx.files.internal("Sound\\Music\\effects\\Chaos\\boom.wav"));
         sonic = new SonicHero(200, 120);
         tails = new Tails();
         GestureDetector gestureDetector;
@@ -46,7 +52,7 @@ public class BossChaosState extends State implements GestureDetector.GestureList
         arrayBullet = new ArrayBullet();
         endLevel = new EndLevel();
         anInterface = new Interface(sonic.getMaxHp(), chaos.getMaxHp());
-        sound = new Sound();
+        soundMusic = new SoundMusic();
 
 
         camera.setToOrtho(false, SonicRGame.WIDTH, SonicRGame.HEIGHT);
@@ -66,18 +72,10 @@ public class BossChaosState extends State implements GestureDetector.GestureList
                 if (sonic.getTimeSpinDash() == 0) {
                     sonic.setHp(sonic.getHp() - 4);
                     arrayBullet.getBullets().get(i).setIsDie(true);
+                    bulletSound.play();
                 }
             }
         }
-        System.out.print(chaos.getPosAttack().y + 40);
-        System.out.print("--");
-        System.out.print(sonic.getPosition().y);
-        System.out.println();
-
-        System.out.print(chaos.getNumberAttackPlatform());
-        System.out.print("--");
-        System.out.print(sonic.getNumberPlatform());
-        System.out.println();
         if ((chaos.getPosAttack().y + 40 == sonic.getPosition().y) && chaos.isAttackSetDamage()){
             sonic.setHp(sonic.getHp() - 1);
             chaos.setIsAttackSetDamage(false);
@@ -86,13 +84,13 @@ public class BossChaosState extends State implements GestureDetector.GestureList
 
     private void EndLevelSet(){
         gsm.set(new SelectLevelState(gsm));
-        sound.StopChaosOst();
+        soundMusic.StopChaosOst();
     }
 
     @Override
     public void update(float dt) {
         handleInput();
-        sound.PlayChaosOst();
+        soundMusic.PlayChaosOst();
         camera.position.x = sonic.getPosition().x + 300;
         sonic.update(dt);
         chaos.update(dt, camera.position);
@@ -102,9 +100,9 @@ public class BossChaosState extends State implements GestureDetector.GestureList
         if (tails.isDamage()){
             tails.setIsDamage(false);
             chaos.setHp(chaos.getHp() - 10);
+            boomSound.play();
+            ///--------
         }
-
-        //----------
         arrayPlatforms.update(camera.position.x, camera.viewportWidth, dt);
 
         if (chaos.isStateBullet() && arrayBullet.getSizeArrayBullets() == 0){
@@ -150,6 +148,7 @@ public class BossChaosState extends State implements GestureDetector.GestureList
     public boolean tap(float x, float y, int count, int button) {
         if (sonic.getLevelSpinDash() >= sonic.getMaxLevelSpindash()) {
             sonic.setTimeSpinDash(0.75);
+            spinDashSound.play();
         }
         return true;
     }

@@ -7,9 +7,11 @@ import com.alekseyvecshev.sonicr.Sprites.ArrayRings;
 import com.alekseyvecshev.sonicr.Sprites.EndLevel;
 import com.alekseyvecshev.sonicr.Sprites.Sonic;
 import com.alekseyvecshev.sonicr.Tool.ScoreTable;
-import com.alekseyvecshev.sonicr.Tool.Sound;
+
+import com.alekseyvecshev.sonicr.Tool.SoundMusic;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -38,13 +40,16 @@ public class PlayState extends State implements GestureDetector.GestureListener 
     private Rectangle resultCollision;
     private BitmapFont font;
     private Random rand;
-    private Sound sound;
+    private SoundMusic soundMusic;
+    private Sound spinDashSound;
+
 
     GestureDetector gestureDetector;
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
         sonic = new Sonic(100, 120);
+        spinDashSound =  Gdx.audio.newSound(Gdx.files.internal("Sound\\Music\\effects\\spindash.wav"));
         arrayPlatforms = new ArrayPlatforms();
         font = new BitmapFont();
         Preferences prefs = Gdx.app.getPreferences("Level");
@@ -68,7 +73,7 @@ public class PlayState extends State implements GestureDetector.GestureListener 
         obstacles = new ArrayObstacles();
         rings = new ArrayRings();
         resultCollision = new Rectangle();
-        sound = new Sound();
+        soundMusic = new SoundMusic();
         gestureDetector = new GestureDetector(this);
         Gdx.input.setInputProcessor(gestureDetector);
     }
@@ -118,7 +123,7 @@ public class PlayState extends State implements GestureDetector.GestureListener 
     }
     @Override
     public void update(float dt) {
-        sound.StartPlay();
+        soundMusic.StartPlay();
         handleInput();
         if ((endLevel.isSonicDie()) || ( endLevel.isComplete())) {
             endLevel.setTimerGameOver(endLevel.getTimerGameOver() - dt);
@@ -127,7 +132,7 @@ public class PlayState extends State implements GestureDetector.GestureListener 
                     SetLevel();
                 }
                 gsm.set(new SelectLevelState(gsm));
-                sound.StopPlay();
+                soundMusic.StopPlay();
             }
         }
         else {
@@ -205,6 +210,7 @@ public class PlayState extends State implements GestureDetector.GestureListener 
     public boolean tap(float x, float y, int count, int button) {
         if (sonic.levelSpinDash >= Sonic.MAX_LEVEL_SPINDASH) {
             sonic.timeSpinDash = 0.75;
+            spinDashSound.play();
          }
         return true;
     }

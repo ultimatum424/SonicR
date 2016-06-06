@@ -52,10 +52,8 @@ public class SelectLevelState extends State{
         Preferences prefs2 = Gdx.app.getPreferences("LevelOpen");
         int numberLevel = prefs2.getInteger("level");
         if (Gdx.input.justTouched()) {
-            System.out.println(isHelp);
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
-            System.out.println(touchPos);
             if (!isHelp) {
                 if (lvl10.contains(touchPos.x, touchPos.y) && numberLevel >= 0) {
                     prefs.putInteger("number", 1);
@@ -102,7 +100,6 @@ public class SelectLevelState extends State{
     private void renderBlack(SpriteBatch sb){
         Preferences prefs2 = Gdx.app.getPreferences("LevelOpen");
         int numberLevel = prefs2.getInteger("level");
-        //System.out.println(numberLevel);
         for (int i = numberLevel; i < 4; i++){
             sb.draw(black, posBlack.get(i).x, posBlack.get(i).y);
         }

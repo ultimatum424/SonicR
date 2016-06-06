@@ -7,13 +7,13 @@ import com.badlogic.gdx.audio.Music;
 /**
  * Created by Алексей on 04.06.2016.
  */
-public class Sound {
+public class SoundMusic {
     Music firstLevelOst;
     Music secondLevelOst;
     Music chaosLevelOst;
     Music menuLevelOst;
     Music fireLevelOst;
-    Music shaodwLevelOst;
+    Music shadowLevelOst;
 
     boolean isPlayFirst;
     boolean isPlaySecond;
@@ -22,13 +22,13 @@ public class Sound {
     boolean isPlayFire;
     boolean isPlayShadow;
 
-    public Sound(){
+    public SoundMusic(){
         firstLevelOst = Gdx.audio.newMusic(Gdx.files.internal("Sound\\Music\\1.mp3"));
         secondLevelOst = Gdx.audio.newMusic(Gdx.files.internal("Sound\\Music\\2.mp3"));
         chaosLevelOst = Gdx.audio.newMusic(Gdx.files.internal("Sound\\Music\\chaos.mp3"));
         menuLevelOst = Gdx.audio.newMusic(Gdx.files.internal("Sound\\Music\\menu.mp3"));
         fireLevelOst = Gdx.audio.newMusic(Gdx.files.internal("Sound\\Music\\fire.mp3"));
-        shaodwLevelOst = Gdx.audio.newMusic(Gdx.files.internal("Sound\\Music\\shadow.mp3"));
+        shadowLevelOst = Gdx.audio.newMusic(Gdx.files.internal("Sound\\Music\\shadow.mp3"));
 
         isPlayFirst = false;
         isPlaySecond = false;
@@ -105,14 +105,14 @@ public class Sound {
 
     public void PlayShadowOst(){
         if (!isPlayShadow) {
-            shaodwLevelOst.play();
+            shadowLevelOst.play();
             isPlayShadow = true;
         }
     }
 
     public void StopShadowOst(){
         if (isPlayShadow){
-            shaodwLevelOst.stop();
+            shadowLevelOst.stop();
             isPlayShadow = false;
         }
 

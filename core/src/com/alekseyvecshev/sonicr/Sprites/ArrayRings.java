@@ -2,6 +2,7 @@ package com.alekseyvecshev.sonicr.Sprites;
 
 import com.alekseyvecshev.sonicr.SonicRGame;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -22,11 +23,13 @@ public class ArrayRings {
     private Animation animation;
     private Rectangle resultCollision;
     private int ringsCount;
-    public final static int RINGS_FOR_END = 2;
+    private Sound ringSound;
+    public final static int RINGS_FOR_END = 50;
 
     public ArrayRings(){
         rings = new  Queue<Ring>();
         rand = new Random();
+        ringSound =  Gdx.audio.newSound(Gdx.files.internal("Sound\\Music\\effects\\ring.wav"));
         resultCollision = new Rectangle();
         textureAtlas = new TextureAtlas(Gdx.files.internal("gameScr\\Ring\\ring.txt"));
         animation = new Animation(1/8f, textureAtlas.getRegions());
@@ -50,6 +53,7 @@ public class ArrayRings {
         for (int i = 0; i < rings.size; i++){
             if (Intersector.intersectRectangles(sonicCollision, rings.get(i).getCollision(), resultCollision)) {
                 rings.removeIndex(i);
+                ringSound.play();
                 ringsCount++;
             }
         }

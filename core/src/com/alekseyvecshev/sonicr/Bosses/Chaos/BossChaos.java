@@ -3,6 +3,7 @@ package com.alekseyvecshev.sonicr.Bosses.Chaos;
 import com.alekseyvecshev.sonicr.SonicRGame;
 import com.alekseyvecshev.sonicr.Tool.HelpersTool;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -49,12 +50,13 @@ public class BossChaos {
     private EnumState state;
     private enum EnumState{Stay, Attack, Bullet, Reborn, Die};
     private float timeState = 0;
+    private Sound soundAttack;
 
     public BossChaos(){
         stayTexture = new Texture("BossStage//BossChaos//stay.png");
         position = new Vector2();
         rand = new Random();
-
+        soundAttack = Gdx.audio.newSound(Gdx.files.internal("Sound\\Music\\effects\\Chaos\\water.wav"));
         attackTexture = new TextureAtlas(Gdx.files.internal("BossStage//BossChaos//attackAnimation.txt"));
         attackAnimation = new Animation(1/15f, attackTexture.getRegions());
 
@@ -89,8 +91,8 @@ public class BossChaos {
                     state = EnumState.Bullet;
                 }
                 else {
-
                     state = EnumState.Attack;
+                    soundAttack.play();
                 }
                 elapsedTimes = 0;
                 timeState = 0;
@@ -113,7 +115,6 @@ public class BossChaos {
         }
         else if (timeState == 0){
             posAttack.set(posAttack.x, (80 + 180 * rand.nextInt(3)));
-            System.out.println(rand.nextInt(3));
         }
 
         else if (attackAnimation.getKeyFrameIndex(elapsedTimes) > 20 && attackAnimation.getKeyFrameIndex(elapsedTimes) < 35){
@@ -138,10 +139,6 @@ public class BossChaos {
         elapsedTimes += dt;
         timeState += dt;
         position.set(posCamera.x + 400, posCamera.y - 100);
-        //System.out.println(state);
-       // System.out.print(" - ");
-       // System.out.print(timeState);
-       // System.out.println();
         ChangeState();
         if (state == EnumState.Attack){
             AttackUpdate();

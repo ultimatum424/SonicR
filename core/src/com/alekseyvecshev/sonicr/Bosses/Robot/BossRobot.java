@@ -4,6 +4,7 @@ import com.alekseyvecshev.sonicr.SonicRGame;
 import com.alekseyvecshev.sonicr.Tool.HelpersTool;
 import com.alekseyvecshev.sonicr.states.BossRobotState;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -26,7 +27,7 @@ public class BossRobot {
     private float elapsedTime = 0;
     private Random rand;
     private EnumState state;
-    private enum EnumState{Die, Fly, Attack, Bullet, GetDamage};
+    private enum EnumState{Die, Fly, Attack, Bullet};
     private float timeState;
     TextureAtlas moveTexture;
     Animation moveAnimation;
@@ -35,9 +36,11 @@ public class BossRobot {
     Rectangle collision;
     private int hp = MAX_HP;
     HelpersTool helpersTool;
+    Sound speedSound;
 
     public BossRobot(){
         moveTexture = new TextureAtlas(Gdx.files.internal("BossStage//BossRobot//moveRobot.txt"));
+        speedSound = Gdx.audio.newSound(Gdx.files.internal("Sound\\Music\\effects\\Robot\\speed.wav"));
         moveAnimation = new Animation(1/15f, moveTexture.getRegions());
         position = new Vector2(600, 180);
         collision = new Rectangle();
@@ -56,6 +59,8 @@ public class BossRobot {
         if ((timeState > 5) && (state == EnumState.Fly)){
             state = EnumState.Attack;
             timeState = 0;
+            // --------------------------------------------------------------
+            speedSound.play();
             position.set(position.x, (130 + rand.nextInt(3) * 180));
         }
         if ((position.x < posCamera.x - (SonicRGame.WIDTH / 2)) && (state == EnumState.Attack)) {
