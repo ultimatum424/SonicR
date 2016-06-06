@@ -6,6 +6,7 @@ import com.alekseyvecshev.sonicr.Sprites.ArrayPlatforms;
 import com.alekseyvecshev.sonicr.Sprites.ArrayRings;
 import com.alekseyvecshev.sonicr.Sprites.EndLevel;
 import com.alekseyvecshev.sonicr.Sprites.Sonic;
+import com.alekseyvecshev.sonicr.Tool.Button;
 import com.alekseyvecshev.sonicr.Tool.ScoreTable;
 
 import com.alekseyvecshev.sonicr.Tool.SoundMusic;
@@ -42,6 +43,7 @@ public class PlayState extends State implements GestureDetector.GestureListener 
     private Random rand;
     private SoundMusic soundMusic;
     private Sound spinDashSound;
+    private Button buttons;
 
 
     GestureDetector gestureDetector;
@@ -52,6 +54,7 @@ public class PlayState extends State implements GestureDetector.GestureListener 
         spinDashSound =  Gdx.audio.newSound(Gdx.files.internal("Sound\\Music\\effects\\spindash.wav"));
         arrayPlatforms = new ArrayPlatforms();
         font = new BitmapFont();
+        buttons = new Button();
         Preferences prefs = Gdx.app.getPreferences("Level");
         if (prefs.getInteger("number") == 1) {
             bk = new Texture("gameScr\\bk1.png");
@@ -183,6 +186,7 @@ public class PlayState extends State implements GestureDetector.GestureListener 
 
         sb.begin();
         renderGame(sb);
+        buttons.render(sb, camera.position);
         if (endLevel.isSonicDie()){
             renderLoseGame(sb);
         }
@@ -208,10 +212,32 @@ public class PlayState extends State implements GestureDetector.GestureListener 
 
     @Override
     public boolean tap(float x, float y, int count, int button) {
-        if (sonic.levelSpinDash >= Sonic.MAX_LEVEL_SPINDASH) {
-            sonic.timeSpinDash = 0.75;
-            spinDashSound.play();
-         }
+        if (x < 170){
+            if (buttons.getMatchDown().contains(x, y)){
+                if (sonic.positionPlatform > 0) {
+                    sonic.positionPlatform--;
+                }
+            }
+            if (buttons.getMatchUp().contains(x, y)){
+                if  (sonic.positionPlatform < 3) {
+                    sonic.positionPlatform++;
+                }
+            }
+            if (buttons.getMatchSp().contains(x, y)){
+                if (sonic.levelSpinDash >= Sonic.MAX_LEVEL_SPINDASH) {
+                    sonic.timeSpinDash = 1.25;
+                    spinDashSound.play();
+                }
+            }
+
+        }
+        else {
+            if (sonic.levelSpinDash >= Sonic.MAX_LEVEL_SPINDASH) {
+                sonic.timeSpinDash = 1.25;
+                spinDashSound.play();
+            }
+
+        }
         return true;
     }
 

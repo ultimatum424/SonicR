@@ -15,23 +15,39 @@ public class Button {
     Sprite buttonUp;
     Sprite buttonDown;
     Sprite buttonSp;
-    
+
+    Rectangle matchUp;
+    Rectangle matchDown;
+    Rectangle matchSp;
+
 
     public Button(){
-        buttonsTexture = new TextureAtlas(Gdx.files.internal("gameScr\\buttons.txt"));
+        buttonsTexture = new TextureAtlas(Gdx.files.internal("gameScr\\button.txt"));
         buttonUp = new Sprite(buttonsTexture.createSprite("up"));
         buttonDown = new Sprite(buttonsTexture.createSprite("down"));
         buttonSp = new Sprite(buttonsTexture.createSprite("sp"));
+
+        matchUp = new Rectangle(37 , 195, 104, 90);
+        matchSp = new Rectangle(20 , 291, 138, 104);
+        matchDown = new Rectangle(37 , 400, 104, 90);
+
     }
 
-    public void update(Vector3 cameraPos){
-        buttonUp.setPosition(cameraPos.x, cameraPos.y);
-        buttonDown.setPosition(cameraPos.x, cameraPos.y);
-        buttonSp.setPosition(cameraPos.x, cameraPos.y);
+    public void render(SpriteBatch sb, Vector3 cameraPos){
+        sb.draw(buttonUp, cameraPos.x - 603,  cameraPos.y + 75);
+        sb.draw(buttonSp, cameraPos.x - 620, cameraPos.y - 35);
+        sb.draw(buttonDown, cameraPos.x - 603, cameraPos.y  - 130);
     }
-    public void render(SpriteBatch sb){
-        sb.draw(buttonUp, buttonUp.getX(),  buttonUp.getY());
-        sb.draw(buttonSp, buttonSp.getX(),  buttonSp.getY());
-        sb.draw(buttonDown, buttonDown.getX(),  buttonDown.getY());
+
+    public Rectangle getMatchUp() {
+        return matchUp;
+    }
+
+    public Rectangle getMatchDown() {
+        return matchDown;
+    }
+
+    public Rectangle getMatchSp() {
+        return matchSp;
     }
 }

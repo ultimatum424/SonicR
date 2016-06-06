@@ -8,6 +8,7 @@ import com.alekseyvecshev.sonicr.Bosses.SonicHero;
 import com.alekseyvecshev.sonicr.SonicRGame;
 import com.alekseyvecshev.sonicr.Sprites.ArrayPlatforms;
 import com.alekseyvecshev.sonicr.Sprites.EndLevel;
+import com.alekseyvecshev.sonicr.Tool.Button;
 import com.alekseyvecshev.sonicr.Tool.SoundMusic;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
@@ -33,6 +34,7 @@ public class BossRobotState extends State implements GestureDetector.GestureList
     GestureDetector gestureDetector;
     Texture bk;
     FireBk fireBk;
+    private Button buttons;
     SoundMusic soundMusic;
     private Sound spinDashSound;
     private Sound fireSound;
@@ -49,6 +51,7 @@ public class BossRobotState extends State implements GestureDetector.GestureList
         endLevel = new EndLevel();
         fireBk = new FireBk();
         soundMusic = new SoundMusic();
+        buttons = new Button();
 
         bk = new Texture("BossStage//BossRobot//bk.png");
         arrayPlatforms = new ArrayPlatforms();
@@ -142,6 +145,7 @@ public class BossRobotState extends State implements GestureDetector.GestureList
         arrayPlatforms.render(sb);
         renderGame(sb);
         fireBk.render(sb, camera.position);
+        buttons.render(sb, camera.position);
         endLevel.renderEndGame(sb, camera.position);
         sb.end();
     }
@@ -158,9 +162,29 @@ public class BossRobotState extends State implements GestureDetector.GestureList
 
     @Override
     public boolean tap(float x, float y, int count, int button) {
-        if (sonic.getLevelSpinDash() >= sonic.getMaxLevelSpindash()) {
-            sonic.setTimeSpinDash(0.75);
-            spinDashSound.play();
+        if (x < 170){
+            if (buttons.getMatchDown().contains(x, y)){
+                if (sonic.getPositionPlatform() > 0) {
+                    sonic.setPositionPlatform(sonic.getPositionPlatform() - 1);
+                }
+            }
+            if (buttons.getMatchUp().contains(x, y)){
+                if  (sonic.getPositionPlatform() < 3) {
+                    sonic.setPositionPlatform(sonic.getPositionPlatform() + 1);
+                }
+            }
+            if (buttons.getMatchSp().contains(x, y)){
+                if (sonic.getLevelSpinDash() >= sonic.getMaxLevelSpindash()) {
+                    sonic.setTimeSpinDash(0.75);
+                    spinDashSound.play();
+                }
+            }
+        }
+        else {
+            if (sonic.getLevelSpinDash() >= sonic.getMaxLevelSpindash()) {
+                sonic.setTimeSpinDash(0.75);
+                spinDashSound.play();
+            }
         }
         return true;
     }
