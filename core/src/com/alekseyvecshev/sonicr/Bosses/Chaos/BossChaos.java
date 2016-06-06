@@ -78,11 +78,13 @@ public class BossChaos {
             state = EnumState.Die;
             elapsedTimes = 0;
             timeState = 0;
+            isDie = false;
         }
         else  if (isReborn){
             state= EnumState.Reborn;
             elapsedTimes = 0;
             timeState = 0;
+            isReborn = false;
         }
         if (timeState >= MAX_TIME_STATE){
             posAttack = new Vector2(0, 0);
@@ -132,6 +134,7 @@ public class BossChaos {
     private void RebornUpdate(){
         if (rebornAnimation.isAnimationFinished(elapsedTimes)){
             timeState = MAX_TIME_STATE;
+            state = EnumState.Stay;
         }
     }
 

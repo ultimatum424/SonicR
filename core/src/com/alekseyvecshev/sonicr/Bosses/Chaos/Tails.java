@@ -59,7 +59,7 @@ public class Tails {
         if (isFly){
             isFly = false;
             state = EnumState.Fly;
-            position.set(posCamera.x -SonicRGame.WIDTH, 550);
+            position.set(posCamera.x -SonicRGame.WIDTH / 2 - 200, 550);
             flySound.play();
         }
         if (position.x > posCamera.x + SonicRGame.WIDTH){
@@ -98,6 +98,8 @@ public class Tails {
         }
         if (timeState > MAX_STATE_TIME && state == EnumState.Stay){
             state = EnumState.Fly;
+            position.set(posCamera.x - SonicRGame.WIDTH, position.y);
+            flySound.play();
         }
     }
 

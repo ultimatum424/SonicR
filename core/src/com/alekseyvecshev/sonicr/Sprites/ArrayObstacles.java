@@ -28,7 +28,7 @@ public class ArrayObstacles {
             textureAtlas = new TextureAtlas(Gdx.files.internal("gameScr\\Enemy\\obstacles.txt"));
         }
         if (prefs.getInteger("number") == 2) {
-            textureAtlas = new TextureAtlas(Gdx.files.internal("gameScr\\Enemy\\obstacles.txt"));
+            textureAtlas = new TextureAtlas(Gdx.files.internal("gameScr\\Enemy\\obstacles2.txt"));
         }
         if (prefs.getInteger("number") == 3) {
             textureAtlas = new TextureAtlas(Gdx.files.internal("gameScr\\Enemy\\obstacles.txt"));

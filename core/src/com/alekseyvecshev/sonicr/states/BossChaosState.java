@@ -94,14 +94,13 @@ public class BossChaosState extends State implements GestureDetector.GestureList
         camera.position.x = sonic.getPosition().x + 300;
         sonic.update(dt);
         chaos.update(dt, camera.position);
-        //------
         CheckCollision();
         tails.update(dt, camera.position, chaos.getPosition());
         if (tails.isDamage()){
             tails.setIsDamage(false);
             chaos.setHp(chaos.getHp() - 10);
+            chaos.setIsDie(true);
             boomSound.play();
-            ///--------
         }
         arrayPlatforms.update(camera.position.x, camera.viewportWidth, dt);
 
@@ -156,7 +155,6 @@ public class BossChaosState extends State implements GestureDetector.GestureList
     @Override
     public boolean longPress(float x, float y) {
         tails.setIsAttack(true);
-        //chaos.setIsDie(true);
         return true;
     }
 
