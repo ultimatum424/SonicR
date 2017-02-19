@@ -50,7 +50,7 @@ public class SelectLevelState extends State{
     protected void handleInput() {
         Preferences prefs = Gdx.app.getPreferences("Level");
         Preferences prefs2 = Gdx.app.getPreferences("LevelOpen");
-        int numberLevel = prefs2.getInteger("level");
+        int numberLevel = 5;
         if (Gdx.input.justTouched()) {
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);

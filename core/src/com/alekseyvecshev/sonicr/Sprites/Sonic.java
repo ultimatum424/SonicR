@@ -99,6 +99,10 @@ public class Sonic {
         return iconStatusBar;
     }
 
+    public void addXPosition(){
+        position.add(10, 0, 0);
+    }
+
     public void update(float dt){
         position.add(dt * CHANGE_DT * SPEED, 0, 0);
         if (positionPlatform == 1)

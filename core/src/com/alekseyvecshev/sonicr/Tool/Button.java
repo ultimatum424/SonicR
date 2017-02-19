@@ -27,16 +27,16 @@ public class Button {
         buttonDown = new Sprite(buttonsTexture.createSprite("down"));
         buttonSp = new Sprite(buttonsTexture.createSprite("sp"));
 
-        matchUp = new Rectangle(37 , 195, 104, 90);
-        matchSp = new Rectangle(20 , 291, 138, 104);
-        matchDown = new Rectangle(37 , 400, 104, 90);
+        matchUp = new Rectangle(37 , 30, 208, 180);
+        matchSp = new Rectangle(20 , 245, 276, 208);
+        matchDown = new Rectangle(37 , 500, 208, 180);
 
     }
 
     public void render(SpriteBatch sb, Vector3 cameraPos){
-        sb.draw(buttonUp, cameraPos.x - 603,  cameraPos.y + 75);
-        sb.draw(buttonSp, cameraPos.x - 620, cameraPos.y - 35);
-        sb.draw(buttonDown, cameraPos.x - 603, cameraPos.y  - 130);
+        sb.draw(buttonUp, cameraPos.x - 603,  cameraPos.y + 150);
+        sb.draw(buttonSp, cameraPos.x - 620, cameraPos.y - 93);
+        sb.draw(buttonDown, cameraPos.x - 603, cameraPos.y  - 320);
     }
 
     public Rectangle getMatchUp() {

@@ -162,7 +162,7 @@ public class BossRobotState extends State implements GestureDetector.GestureList
 
     @Override
     public boolean tap(float x, float y, int count, int button) {
-        if (x < 170){
+        if (x < 313){
             if (buttons.getMatchDown().contains(x, y)){
                 if (sonic.getPositionPlatform() > 0) {
                     sonic.setPositionPlatform(sonic.getPositionPlatform() - 1);

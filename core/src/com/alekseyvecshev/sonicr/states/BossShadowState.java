@@ -45,6 +45,7 @@ public class BossShadowState extends State implements GestureDetector.GestureLis
         boomSound = Gdx.audio.newSound(Gdx.files.internal("Sound\\Music\\effects\\boom.wav"));
         arrayPlatforms = new ArrayPlatforms();
         arrayRobots = new ArrayRobots();
+        buttons = new Button();
         resultCollision = new Rectangle();
         endLevel = new EndLevel();
         soundMusic = new SoundMusic();
@@ -155,7 +156,7 @@ public class BossShadowState extends State implements GestureDetector.GestureLis
 
     @Override
     public boolean tap(float x, float y, int count, int button) {
-        if (x < 170){
+        if (x < 313){
             if (buttons.getMatchDown().contains(x, y)){
                 if (sonic.getPositionPlatform() > 0) {
                     sonic.setPositionPlatform(sonic.getPositionPlatform() - 1);

@@ -212,15 +212,17 @@ public class PlayState extends State implements GestureDetector.GestureListener 
 
     @Override
     public boolean tap(float x, float y, int count, int button) {
-        if (x < 170){
+        if (x < 313){
             if (buttons.getMatchDown().contains(x, y)){
                 if (sonic.positionPlatform > 0) {
                     sonic.positionPlatform--;
+                    sonic.addXPosition();
                 }
             }
             if (buttons.getMatchUp().contains(x, y)){
                 if  (sonic.positionPlatform < 3) {
                     sonic.positionPlatform++;
+                    sonic.addXPosition();
                 }
             }
             if (buttons.getMatchSp().contains(x, y)){
