@@ -1,0 +1,33 @@
+GameEnd.png
+size: 720, 489
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+complete
+  rotate: false
+  xy: 0, 0
+  size: 292, 357
+  orig: 292, 357
+  offset: 0, 0
+  index: -1
+gameOver
+  rotate: false
+  xy: 0, 357
+  size: 720, 88
+  orig: 720, 88
+  offset: 0, 0
+  index: -1
+progressBar
+  rotate: false
+  xy: 0, 445
+  size: 552, 18
+  orig: 552, 18
+  offset: 0, 0
+  index: -1
+progressBarMask
+  rotate: false
+  xy: 0, 463
+  size: 558, 26
+  orig: 558, 26
+  offset: 0, 0
+  index: -1

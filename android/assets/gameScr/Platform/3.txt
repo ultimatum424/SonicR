@@ -1,0 +1,12 @@
+3.png
+size: 104, 50
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Block_Dungeon_Slab
+  rotate: false
+  xy: 0, 0
+  size: 104, 50
+  orig: 104, 50
+  offset: 0, 0
+  index: -1

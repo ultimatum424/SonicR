@@ -1,0 +1,12 @@
+1.png
+size: 165, 50
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+platform2
+  rotate: false
+  xy: 0, 0
+  size: 165, 50
+  orig: 165, 50
+  offset: 0, 0
+  index: -1

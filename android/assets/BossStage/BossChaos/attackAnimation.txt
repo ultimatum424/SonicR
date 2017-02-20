@@ -1,0 +1,215 @@
+attackAnimation.png
+size: 1920, 576
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+01
+  rotate: false
+  xy: 0, 0
+  size: 189, 192
+  orig: 189, 192
+  offset: 0, 0
+  index: -1
+02
+  rotate: false
+  xy: 189, 0
+  size: 189, 192
+  orig: 189, 192
+  offset: 0, 0
+  index: -1
+03
+  rotate: false
+  xy: 378, 0
+  size: 189, 192
+  orig: 189, 192
+  offset: 0, 0
+  index: -1
+04
+  rotate: false
+  xy: 567, 0
+  size: 189, 192
+  orig: 189, 192
+  offset: 0, 0
+  index: -1
+05
+  rotate: false
+  xy: 756, 0
+  size: 189, 192
+  orig: 189, 192
+  offset: 0, 0
+  index: -1
+06
+  rotate: false
+  xy: 945, 0
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+07
+  rotate: false
+  xy: 1137, 0
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+08
+  rotate: false
+  xy: 1329, 0
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+09
+  rotate: false
+  xy: 1521, 0
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+10
+  rotate: false
+  xy: 1713, 0
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+11
+  rotate: false
+  xy: 0, 192
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+12
+  rotate: false
+  xy: 192, 192
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+13
+  rotate: false
+  xy: 384, 192
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+14
+  rotate: false
+  xy: 576, 192
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+15
+  rotate: false
+  xy: 768, 192
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+16
+  rotate: false
+  xy: 960, 192
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+17
+  rotate: false
+  xy: 1152, 192
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+18
+  rotate: false
+  xy: 1344, 192
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+19
+  rotate: false
+  xy: 1536, 192
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+20
+  rotate: false
+  xy: 1728, 192
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+21
+  rotate: false
+  xy: 0, 384
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+22
+  rotate: false
+  xy: 192, 384
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+23
+  rotate: false
+  xy: 384, 384
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+24
+  rotate: false
+  xy: 576, 384
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+25
+  rotate: false
+  xy: 768, 384
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+26
+  rotate: false
+  xy: 960, 384
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+27
+  rotate: false
+  xy: 1152, 384
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+28
+  rotate: false
+  xy: 1344, 384
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+29
+  rotate: false
+  xy: 1536, 384
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+30
+  rotate: false
+  xy: 1728, 384
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1

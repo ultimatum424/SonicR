@@ -1,0 +1,68 @@
+dieRobot.png
+size: 126, 981
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+die
+  rotate: false
+  xy: 0, 0
+  size: 126, 109
+  orig: 126, 109
+  offset: 0, 0
+  index: 1
+die
+  rotate: false
+  xy: 0, 109
+  size: 126, 109
+  orig: 126, 109
+  offset: 0, 0
+  index: 2
+die
+  rotate: false
+  xy: 0, 218
+  size: 126, 109
+  orig: 126, 109
+  offset: 0, 0
+  index: 3
+die
+  rotate: false
+  xy: 0, 327
+  size: 126, 109
+  orig: 126, 109
+  offset: 0, 0
+  index: 4
+die
+  rotate: false
+  xy: 0, 436
+  size: 126, 109
+  orig: 126, 109
+  offset: 0, 0
+  index: 5
+die
+  rotate: false
+  xy: 0, 545
+  size: 126, 109
+  orig: 126, 109
+  offset: 0, 0
+  index: 6
+die
+  rotate: false
+  xy: 0, 654
+  size: 126, 109
+  orig: 126, 109
+  offset: 0, 0
+  index: 7
+die
+  rotate: false
+  xy: 0, 763
+  size: 126, 109
+  orig: 126, 109
+  offset: 0, 0
+  index: 8
+die
+  rotate: false
+  xy: 0, 872
+  size: 126, 109
+  orig: 126, 109
+  offset: 0, 0
+  index: 9

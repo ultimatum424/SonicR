@@ -1,0 +1,61 @@
+bkAnimation.png
+size: 2048, 256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+flamethrower
+  rotate: false
+  xy: 0, 0
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 7
+flamethrower
+  rotate: false
+  xy: 256, 0
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 8
+flamethrower
+  rotate: false
+  xy: 512, 0
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 9
+flamethrower
+  rotate: false
+  xy: 768, 0
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 10
+flamethrower
+  rotate: false
+  xy: 1024, 0
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 11
+flamethrower
+  rotate: false
+  xy: 1280, 0
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 12
+flamethrower
+  rotate: false
+  xy: 1536, 0
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 13
+flamethrower
+  rotate: false
+  xy: 1792, 0
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 14

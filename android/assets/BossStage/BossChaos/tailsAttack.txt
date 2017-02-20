@@ -1,0 +1,40 @@
+tailsAttack.png
+size: 118, 61
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1
+  rotate: false
+  xy: 0, 0
+  size: 17, 61
+  orig: 17, 61
+  offset: 0, 0
+  index: -1
+2
+  rotate: false
+  xy: 17, 0
+  size: 23, 61
+  orig: 23, 61
+  offset: 0, 0
+  index: -1
+3
+  rotate: false
+  xy: 40, 0
+  size: 24, 61
+  orig: 24, 61
+  offset: 0, 0
+  index: -1
+4
+  rotate: false
+  xy: 64, 0
+  size: 24, 61
+  orig: 24, 61
+  offset: 0, 0
+  index: -1
+5
+  rotate: false
+  xy: 88, 0
+  size: 30, 61
+  orig: 30, 61
+  offset: 0, 0
+  index: -1

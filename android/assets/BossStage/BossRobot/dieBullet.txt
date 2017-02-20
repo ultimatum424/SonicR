@@ -1,0 +1,54 @@
+dieBullet.png
+size: 60, 602
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+fireball_die
+  rotate: false
+  xy: 0, 0
+  size: 60, 86
+  orig: 60, 86
+  offset: 0, 0
+  index: 1
+fireball_die
+  rotate: false
+  xy: 0, 86
+  size: 60, 86
+  orig: 60, 86
+  offset: 0, 0
+  index: 2
+fireball_die
+  rotate: false
+  xy: 0, 172
+  size: 60, 86
+  orig: 60, 86
+  offset: 0, 0
+  index: 3
+fireball_die
+  rotate: false
+  xy: 0, 258
+  size: 60, 86
+  orig: 60, 86
+  offset: 0, 0
+  index: 4
+fireball_die
+  rotate: false
+  xy: 0, 344
+  size: 60, 86
+  orig: 60, 86
+  offset: 0, 0
+  index: 5
+fireball_die
+  rotate: false
+  xy: 0, 430
+  size: 60, 86
+  orig: 60, 86
+  offset: 0, 0
+  index: 6
+fireball_die
+  rotate: false
+  xy: 0, 516
+  size: 60, 86
+  orig: 60, 86
+  offset: 0, 0
+  index: 7
